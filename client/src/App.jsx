@@ -12,6 +12,8 @@ import EmployeeDashboard from "./Employee/pages/EmployeeDashboard";
 import FinanceDashboard from "./Finance/pages/FinanceDashboard";
 import ProjectManagementDashboard from "./Projects/pages/FinanceDashboard";
 import Payment from "./Finance/pages/Payment";
+import DisplayTenderCard from "./Tender/components/DisplayTenderCard";
+
 
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Route path="/employeeDashboard" element={<EmployeeDashboard />} />
         <Route path="/projectDashboard" element={<ProjectManagementDashboard />} />
         <Route path="/Payment" element={<Payment />} />
+        <Route path="/tenders" element={<DisplayTenderCard />} />
 
       </Routes>
     </Router>

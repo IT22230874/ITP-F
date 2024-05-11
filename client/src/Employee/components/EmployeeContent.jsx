@@ -96,7 +96,7 @@ function EmployeeContent() {
       {selectedTable === "attendance" && <AttendenceTable />}
 
       {showForm && (
-        <div className="formcontainer">
+        <div className="formcontainer ">
           <AddEmployeeForm closeForm={displayForm} />
         </div>
       )}
