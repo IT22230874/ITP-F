@@ -1,0 +1,132 @@
+.rentFil {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.popupcontainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.509);
+}
+
+.popup {
+  background-color: white;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 10px;
+  box-shadow: 0 0 1px 2px rgb(15, 94, 184);
+}
+
+.popup .close {
+  background-color: #ad0000;
+  border: none;
+  outline: none;
+  padding: 10px 25px;
+  text-transform: capitalize;
+  color: white;
+}
+
+.popup .add {
+  background-color: #6dad00;
+  border: none;
+  outline: none;
+  padding: 10px 25px;
+  text-transform: capitalize;
+  color: white;
+}
+
+.buttonscontainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.viewbtn {
+  color: rgb(64, 105, 163) !important;
+  font-size: 16px;
+}
+
+.delete {
+  color: #ff6f00 !important;
+  font-size: 16px;
+}
+
+.rent {
+  color: #198905 !important;
+  font-size: 16px;
+}
+
+.analysis {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.item {
+  width: 180px;
+  height: 70px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  margin-right: 20px;
+  box-shadow: 0 0 1px 2px rgb(18, 70, 165);
+  text-align: center;
+  padding: 15px 10px;
+  padding-bottom: 30px;
+  margin-bottom: 15px;
+}
+
+.headin {
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.val {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+
+.formcontainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  overflow-y: auto;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff79 !important;
+}
+
+ .view {
+  width: fit-content !important;
+  height: fit-content;
+  background-color: #FFFFFF;
+}
+
+.machiesearch {
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  background-color: #e7e7e7;
+}
+
+.filter .close {
+  background-color: #ad0000;
+  color: white;
+  text-transform: capitalize;
+  font-weight: 400;
+}

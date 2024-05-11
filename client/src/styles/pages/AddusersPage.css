@@ -1,0 +1,7 @@
+.addusers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4880ff;
+  height: 100vh;
+}

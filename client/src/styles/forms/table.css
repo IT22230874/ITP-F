@@ -1,0 +1,135 @@
+/* Table styles */
+table {
+  width: 950px;
+  border-collapse: collapse;
+  border: none;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  border-radius: 50%; /* Add a subtle shadow effect */
+}
+
+th,
+td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+  text-transform: capitalize;
+  font-weight: 300;
+  cursor: pointer;
+  border: none;
+}
+
+tr:hover {
+  background-color: #eba1a1;
+}
+
+/* Header row styles */
+thead {
+  border-radius: 8px 8px 0 0;
+}
+thead th {
+  background-color: #e2e2e2;
+  font-weight: 900;
+}
+
+/* Body row styles */
+tbody tr:nth-child(even) {
+  background-color: #79a5c6; /* Alternate row background color */
+}
+tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* Alternate row background color */
+}
+
+.filter {
+  margin-top: 30px;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  justify-content: center;
+}
+
+.filter span {
+  padding: 12px 10px;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.filter span:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.filter select {
+  padding: 13.1px;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  font-family: "Poppins", sans-serif;
+  border-right: 1px solid rgb(120, 120, 120);
+  border-left: 1px solid rgb(120, 120, 120);
+}
+
+.filter select:first-child {
+  border-left: none;
+}
+
+.filter option {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  text-transform: capitalize;
+  color: #333;
+  background-color: #a8c7df;
+}
+
+.filter option:hover {
+  background: #79a5c6;
+}
+
+.filter button {
+  padding: 14px 20px;
+  background-color: #fff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navbar {
+  width: fit-content;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  margin-bottom: -20px;
+}
+.navbar button {
+  margin: 5px 5px;
+}
+
+.navbar button:first-child {
+  margin-left: -5px;
+}
+
+.stockitem {
+  text-align: left;
+  width: fit-content;
+  border-radius: 18px;
+  padding: 5px 5px;
+}
+
+td button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+td button:first-child {
+  color: rgb(10, 40, 68);
+}
+
+td button:last-child {
+  color: #ad0000;
+}

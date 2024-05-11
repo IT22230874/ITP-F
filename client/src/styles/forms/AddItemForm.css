@@ -1,0 +1,7 @@
+.form {
+  max-height: 550px;
+  overflow-y: hidden;
+  width: 600px;
+  border: none;
+  box-shadow: 0 0 4px 2px black;
+}

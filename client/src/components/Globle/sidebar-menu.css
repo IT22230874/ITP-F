@@ -1,0 +1,73 @@
+/* sidebar-menu.css */
+
+.sidebarmenu {
+    width: 400px;
+    background-color: #ffffff;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .nameofcompnay{
+    font-size: 26px;
+    font-weight: 700;
+    display: flex;
+  }
+
+  .nameofcompnay span:first-child{
+    color: #0056b3;
+  }
+  
+
+  .nameofcompnay span:last-child{
+    color: #181818;
+  }
+  
+  .sidebarmenu a {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #333;
+    background-color: #ebebeb;
+    width: 300px;
+    transition: color 0.3s;
+    border-radius: 5px;
+  }
+  
+  .sidebarmenu a:hover {
+    color: #ffffff;
+    background-color: #2666af; /* Very light blue color on hover */
+  }
+  
+  .sidebarmenu span {
+    display: block;
+    padding: 10px 0;
+    color: #999;
+  }
+  
+  .sidebarmenu-bottom {
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 50px;
+  }
+  
+  .sidebarmenu-bottom button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #2f58a5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .sidebarmenu-bottom button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+  }
+  

@@ -1,0 +1,82 @@
+.Home {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.sidebarmenu {
+  height: 100vh;
+  background-color: #fdfdfd;
+  width: 320px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: calc(100vw - 320px);
+  background-color: #fdfdfd;
+}
+
+.Header p {
+  margin-right: 20px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: calc(100vw - 320px);
+  background-color: inherit;
+  height: 100vh;
+}
+
+@media screen and (max-width: 780px) {
+  /* Show menu toggle when screen size is 780px or less */
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 28px;
+    background-color: #18307a;
+    height: 50px;
+    color: #0b0b0b;
+  }
+
+  .menu-toggle span {
+    margin-left: 5px;
+  }
+
+  /* Hide SideBarMenu when screen size is 780px or less */
+  .sidebar-menu {
+    display: none;
+  }
+
+  .sidebarmenu {
+    height: calc(100vh - 50px);
+    background-color: #1744ad;
+    width: 100vw;
+  }
+
+  .Home {
+    overflow-y: scroll;
+  }
+
+  .Header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 50px;
+    padding: 10px;
+  }
+}
