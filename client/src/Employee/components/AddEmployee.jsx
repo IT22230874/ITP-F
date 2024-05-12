@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../styles/empForm.css'
 
 function AddEmployee() {
   const [formData, setFormData] = useState({
@@ -36,56 +35,108 @@ function AddEmployee() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Add Employee</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="fname">First Name:</label>
-          <input type="text" id="fname" name="fname" value={formData.fname} onChange={handleChange} required />
+    // <div className="max-w-md mx-auto">
+    //   <h2>Add Employee</h2>
+    //   <form onSubmit={handleSubmit}>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="fname">First Name:</label>
+    //       <input type="text" id="fname" name="fname" value={formData.fname} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="lname">Last Name:</label>
+    //       <input type="text" id="lname" name="lname" value={formData.lname} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="age">Age:</label>
+    //       <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="tel">Telephone:</label>
+    //       <input type="text" id="tel" name="tel" value={formData.tel} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="email">Email:</label>
+    //       <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="position">Position:</label>
+    //       <input type="text" id="position" name="position" value={formData.position} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="nic">NIC:</label>
+    //       <input type="text" id="nic" name="nic" value={formData.nic} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="dob">Date of Birth:</label>
+    //       <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="address">Address:</label>
+    //       <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="joindate">Join Date:</label>
+    //       <input type="date" id="joindate" name="joindate" value={formData.joindate} onChange={handleChange} required />
+    //     </div>
+    //     <div className="relative z-0 w-full mb-5 group">
+    //       <label htmlFor="salary">Salary:</label>
+    //       <input type="text" id="salary" name="salary" value={formData.salary} onChange={handleChange} required />
+    //     </div>
+    //     <button type="submit">Add Employee</button>
+    //   </form>
+    // </div>
+
+
+<form onSubmit={handleSubmit} className="bg-white p-4 rounded border border-black">
+    <div class="grid gap-6 mb-6 md:grid-cols-2 ">
+        <div>
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+            <input type="text" id="fname" name="fname" value={formData.fname} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
         </div>
-        <div className="form-group">
-          <label htmlFor="lname">Last Name:</label>
-          <input type="text" id="lname" name="lname" value={formData.lname} onChange={handleChange} required />
+        <div>
+            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+            <input type="text" id="lname" name="lname" value={formData.lname} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
         </div>
-        <div className="form-group">
-          <label htmlFor="age">Age:</label>
-          <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} required />
+        <div>
+            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
+            <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
+        </div>  
+        <div>
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
+            <input type="text" id="tel" name="tel" value={formData.tel} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="071-234-5678" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="tel">Telephone:</label>
-          <input type="text" id="tel" name="tel" value={formData.tel} onChange={handleChange} required />
+        <div>
+            <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required />
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
+            <input type="text" id="position" name="position" value={formData.position} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="position">Position:</label>
-          <input type="text" id="position" name="position" value={formData.position} onChange={handleChange} required />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIC</label>
+            <input type="text" id="nic" name="nic" value={formData.nic} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="nic">NIC:</label>
-          <input type="text" id="nic" name="nic" value={formData.nic} onChange={handleChange} required />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DOB</label>
+            <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="dob">Date of Birth:</label>
-          <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleChange} required />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Join Date</label>
+            <input type="date" id="joindate" name="joindate" value={formData.joindate} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="address">Address:</label>
-          <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} required />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+            <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="joindate">Join Date:</label>
-          <input type="date" id="joindate" name="joindate" value={formData.joindate} onChange={handleChange} required />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Salary</label>
+            <input type="text" id="salary" name="salary" value={formData.salary} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div className="form-group">
-          <label htmlFor="salary">Salary:</label>
-          <input type="text" id="salary" name="salary" value={formData.salary} onChange={handleChange} required />
-        </div>
-        <button type="submit">Add Employee</button>
-      </form>
     </div>
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+</form>
+
   );
 }
 
