@@ -54,9 +54,10 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
   return (
     <>
       <div className="max-w-sm w-72 bg-white border border-gray-200 rounded-lg shadow ">
+        {console.log("Image Name:", imagename)}
         <img
           className="rounded-t-lg w-full h-60 object-cover"
-          src={imagename}
+          src={`../src/assets/machinery/${imagename}`}
           alt={heading}
         />
         <div className="p-5">
