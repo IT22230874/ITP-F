@@ -133,7 +133,9 @@ function AttendanceTable() {
 
   return (
     <div>
-      <h2>Attendance Table</h2>
+            <div class="mt-10 font-bold">
+        <h2>Attendence Table</h2>
+        </div>
       <div className="filter">
         <input
           type="text"

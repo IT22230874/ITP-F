@@ -134,7 +134,10 @@ function EmployeeTable() {
 
   return (
     <div>
-      <h2>Employee Table</h2>
+      <div class="mt-10 font-bold">
+        <h2>Employee Table</h2>
+        </div>
+      
 
       <div className="filter">
         <span>Filter By Position:</span>

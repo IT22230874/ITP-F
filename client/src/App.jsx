@@ -13,6 +13,7 @@ import FinanceDashboard from "./Finance/pages/FinanceDashboard";
 import ProjectManagementDashboard from "./Projects/pages/FinanceDashboard";
 import Payment from "./Finance/pages/Payment";
 import DisplayTenderCard from "./Tender/components/DisplayTenderCard";
+import TenderDetailsCard from "./Tender/components/TenderDetailsCard";
 
 
 
@@ -32,7 +33,7 @@ function App() {
         <Route path="/employeeDashboard" element={<EmployeeDashboard />} />
         <Route path="/projectDashboard" element={<ProjectManagementDashboard />} />
         <Route path="/Payment" element={<Payment />} />
-        <Route path="/tenders" element={<DisplayTenderCard />} />
+        <Route path="/tenders" element={<TenderDetailsCard />} />
 
       </Routes>
     </Router>
