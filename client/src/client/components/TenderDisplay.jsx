@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import TenderCard from "./TenderCard";
 
 function TenderDisplay() {
   const [tenderdata, setTenderData] = useState([]);
 
   useEffect(() => {
     axios
-      .get("/api/rent/displaymachines")
+      .get("/api/tender/publishtenderdisplay")
       .then((response) => {
         setTenderData(response.data);
       })
@@ -15,17 +17,19 @@ function TenderDisplay() {
   }, []);
 
   return (
-    <div>
-      <div className="machine-container flex flex-wrap gap-6 justify-center p-4 lg:ml-20 ">
-        {tenderdata.map((tender) => (
+    <div className="container mx-auto px-4 py-8">
+      {tenderdata.map((tender) => (
+        <div key={tender._id} className="mx-auto max-w-5xl">
           <TenderCard
-            key={tender._id}
             heading={tender.title}
             tenderid={tender._id}
+            publishdate={tender.publishdate}
+            closedate={tender.closedate}
+            location={tender.location}
             description={tender.description}
           />
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

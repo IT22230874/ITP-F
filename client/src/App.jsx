@@ -14,6 +14,7 @@ import ProjectManagementDashboard from "./Projects/pages/FinanceDashboard";
 import Payment from "./Finance/pages/Payment";
 import DisplayTenderCard from "./Tender/components/DisplayTenderCard";
 import TenderDetailsCard from "./Tender/components/TenderDetailsCard";
+import TenderPage from "./client/pages/TenderPage";
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
         />
         <Route path="/Payment" element={<Payment />} />
 
-        <Route path="/tenders" element={<TenderDetailsCard />} />
+        <Route path="/tenders" element={<TenderPage />} />
       </Routes>
     </Router>
   );

@@ -56,8 +56,7 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
       <div className="max-w-sm w-72 bg-white border border-gray-200 rounded-lg shadow ">
         <img
           className="rounded-t-lg w-full h-60 object-cover"
-          src="https://picsum.photos/id/63/200/300
-          "
+          src={imagename}
           alt={heading}
         />
         <div className="p-5">
