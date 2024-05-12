@@ -15,7 +15,7 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static("/uploads"));
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on ${process.env.PORT}`);

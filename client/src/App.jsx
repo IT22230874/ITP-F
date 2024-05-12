@@ -13,7 +13,6 @@ import FinanceDashboard from "./Finance/pages/FinanceDashboard";
 import ProjectManagementDashboard from "./Projects/pages/FinanceDashboard";
 import Payment from "./Finance/pages/Payment";
 
-
 function App() {
   return (
     <Router>
@@ -28,9 +27,11 @@ function App() {
         <Route path="/tenderDashboard" element={<TenderDashboard />} />
         <Route path="/financeDashboard" element={<FinanceDashboard />} />
         <Route path="/employeeDashboard" element={<EmployeeDashboard />} />
-        <Route path="/projectDashboard" element={<ProjectManagementDashboard />} />
+        <Route
+          path="/projectDashboard"
+          element={<ProjectManagementDashboard />}
+        />
         <Route path="/Payment" element={<Payment />} />
-
       </Routes>
     </Router>
   );

@@ -3,39 +3,38 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 function Footer() {
   return (
-    <footer>
-      <p className="heading">
-        <span className="left">Shan</span>
-        <span className="right">Constructions</span>
-      </p>
-      <nav>
-        <p className="titile">
-          <span className="left">Shan</span>
-          <span className="right">Construction</span>
-        </p>
-        <ul>
+    <footer class="bg-white  shadow  dark:bg-gray-800">
+      <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          © 2024{" "}
+          <a href="#" class="hover:underline">
+            Shan Construction™
+          </a>
+          . All Rights Reserved.
+        </span>
+        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
           <li>
-            <Link to="/home">Home</Link>
+            <a href="#" class="hover:underline me-4 md:me-6">
+              About
+            </a>
           </li>
           <li>
-            <Link to="/packages">Packages</Link>
+            <a href="#" class="hover:underline me-4 md:me-6">
+              Privacy Policy
+            </a>
           </li>
           <li>
-            <Link to="/tenders">Tenders</Link>
+            <a href="#" class="hover:underline me-4 md:me-6">
+              Licensing
+            </a>
           </li>
           <li>
-            <Link to="/rents">Rents</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
+            <a href="#" class="hover:underline">
+              Contact
+            </a>
           </li>
         </ul>
-
-        <button type="button">
-          <Link to="/contact">Contact</Link>
-        </button>
-      </nav>
-      <p className="copyrights">@2024 ShanConstructions allrights reserved</p>
+      </div>
     </footer>
   );
 }
