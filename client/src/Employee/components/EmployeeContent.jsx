@@ -21,6 +21,7 @@ function EmployeeContent() {
   const displayForm = () => {
     setShowForm(!showForm);
   };
+  
 
   const toggleAddGroup = () => {
     setShowAddGroup(!showAddGroup); // Toggle the state to show/hide Add Group component
@@ -37,6 +38,8 @@ function EmployeeContent() {
       }
     }
   };
+
+
 
 
   return (
@@ -100,8 +103,9 @@ function EmployeeContent() {
           <AddEmployeeForm closeForm={displayForm} />
         </div>
       )}
-
-      {showAddGroup && <AddGroup />} {/* Render AddGroup component if showAddGroup state is true */}
+      
+        {showAddGroup && <AddGroup close={() => {toggleAddGroup ()}} />} {/* Render AddGroup component if showAddGroup state is true */}
+      
     </div>
   );
 }

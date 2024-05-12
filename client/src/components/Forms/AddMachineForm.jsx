@@ -74,7 +74,7 @@ function AddMachineForm({ handleClick }) {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="bg-white p-4 rounded border border-black" onSubmit={handleSubmit}>
       <button type="button" className="closebtn" onClick={handleClick}>
         x
       </button>
