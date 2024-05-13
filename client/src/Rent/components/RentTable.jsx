@@ -4,7 +4,7 @@ import { FiFilter, FiRefreshCcw } from "react-icons/fi";
 import { FaEye, FaMoneyBillAlt, FaTrashAlt } from "react-icons/fa";
 import RentItem from "./RentItem";
 
-function RentTable() {
+function RentTable({ tableRef }) {
   const [rentData, setRentData] = useState([]);
   const [filteredRentData, setFilteredRentData] = useState([]);
   const [selectedRentId, setSelectedRentId] = useState(null);
@@ -111,7 +111,7 @@ function RentTable() {
         </button>
       </div>
 
-      <table>
+      <table ref={tableRef}>
         <thead>
           <tr>
             <th>Rent ID</th>
