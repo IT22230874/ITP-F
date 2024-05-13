@@ -6,6 +6,8 @@ import AnalysisSection from "./AnalysisSection";
 import RequestTable from "./RequestTable";
 import RentTable from "./RentTable";
 import MachineryDisplay from "./MachineryDisplay";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 function RentContent() {
   const [displayForm, setDisplayForm] = useState(false);
@@ -26,32 +28,58 @@ function RentContent() {
     setHeading(swapTable ? "Requests" : "Rentals");
   };
 
-  const getpdf = async () => {
-    try {
-      // Make a GET request to the server-side route for PDF generation
-      const response = await axios.get("/api/rent/getpdf", {
-        responseType: "blob",
+
+
+  const generatePDF = (tableRef) => {
+    const table = tableRef.current; // Assuming you pass a ref to the table element
+    const doc = new jsPDF("p", "pt", "a4");
+  
+    // Hide action column before taking the screenshot
+    const actionColumn = table.querySelector(".actions");
+    actionColumn.style.display = "none";
+  
+    // Add table styling
+    const columns = [
+      "Rent ID",
+      "Client Name",
+      "Start Date",
+      "End Date",
+      "Payment Status",
+      "Total Installments",
+      "Installments to Receive",
+    ];
+    const rows = table.querySelectorAll("tbody tr");
+    const tableData = [];
+    rows.forEach((row) => {
+      const rowData = [];
+      row.querySelectorAll("td").forEach((cell) => {
+        rowData.push(cell.textContent.trim());
       });
+      tableData.push(rowData);
+    });
   
-      // Create a URL for the blob
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+    doc.autoTable({
+      head: [columns],
+      body: tableData,
+      startY: 120,
+      theme: "grid",
+      styles: {
+        overflow: "linebreak",
+        columnWidth: "wrap",
+        font: "Arial",
+        fontSize: 10,
+        halign: "center",
+        valign: "middle",
+      },
+    });
   
-      // Create a link element
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "RentReport.pdf");
+    // Show action column again
+    actionColumn.style.display = "table-cell";
   
-      // Append the link to the body and trigger a click event
-      document.body.appendChild(link);
-      link.click();
-  
-      // Cleanup: remove the link element and revoke the URL
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error fetching PDF:", error);
-    }
+    // Save the PDF
+    doc.save("rent_report.pdf");
   };
+  
   
 
   return (
