@@ -5,12 +5,30 @@ const TeamModel = require("../../modules/Project_Management/teams.model.js");
 const ProjectMachineModel = require("../../modules/Project_Management/machine.model.js");
 const errorHandler = require("../../utils/error.js");
 
+const analysis = async (req, res) => {
+  try {
+    const totalProjects = await ProjectModel.countDocuments();
+    const newProjects = await ProjectModel.countDocuments({ status: 'new' });
+    const finishedProjects = await ProjectModel.countDocuments({ status: 'finished' });
+    const ongoingProjects = await ProjectModel.countDocuments({ status: 'ongoing' });
+
+    res.json({
+      totalProjects,
+      newProjects,
+      finishedProjects,
+      ongoingProjects
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 const addProject = async (req, res, next) => {
   try {
-    const { name, location, budget, startdate, enddate, isTender, clientname, description } = req.body;
+    const { name, location, budget, startdate, enddate, isTender, clientname, description, email } = req.body;
 
     // Check if any required field is missing
-    if (!name || !budget || !location || !startdate || !enddate || !isTender || !clientname || !description) {
+    if (!name || !budget || !location || !startdate || !enddate || !isTender || !clientname || !description || email) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
@@ -28,6 +46,7 @@ const addProject = async (req, res, next) => {
       isTender,
       clientname,
       description,
+      email,
     });
 
     await newProject.save();
@@ -391,5 +410,6 @@ module.exports = {
   updatePhase,
   getPhaseById,
   getPhasesByProject,
-  updatePhaseQuantity
+  updatePhaseQuantity,
+  analysis
 };

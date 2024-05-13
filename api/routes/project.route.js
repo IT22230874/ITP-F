@@ -25,13 +25,15 @@ const {
     updatePhase,
     getPhaseById,
     getPhasesByProject,
-    updatePhaseQuantity
+    updatePhaseQuantity,
+    analysis
 } = require('../controllers/Project_management/project.controller.js');
 
 const router = express.Router();
 /*662f1f6601eecf7792af3a6d*/
 router.post('/addproject', addProject);
 router.get('/projects', getAllProjects);
+router.get('/analysis', analysis);
 router.delete('/deleteproject/:id', deleteProject);
 router.patch('/updateproject/:id', updateProject);
 router.get('/project/:id', getProjectById);
@@ -52,6 +54,8 @@ router.get('/machine/:id', getMachineById);
 router.get('/machines/project/:pid', getMachinesByProject);
 router.put('/increasemachinequantity/:id', increaseMachineQuantity);
 router.delete('/deletemachines/:id', deleteMachines);
+
+//add groups
 router.post('/addteam', addTeam);
 router.delete('/deleteteam/:id', deleteTeam);
 router.post('/addphase', addPhase);
