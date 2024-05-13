@@ -1,0 +1,73 @@
+.project-stats-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: -60px;
+  }
+  
+  .project-stat-card {
+    width: calc(25% - 10px); /* Adjust as needed */
+    height: 250px ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .card-top {
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: 90px;
+    font-weight: 300;
+    width: 130px;
+    text-align: center;
+    font-weight: 500;
+    color: rgb(20, 20, 20);
+  }
+  
+  .card-bottom {
+    padding: 10px;
+    height: 90px;
+    width: 70px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 0 10px 10px 0;
+    color: #FFF;
+    /*animation: moveUpDown 1s infinite alternate; /* Animation properties */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .white-bg {
+    background-color: white;
+  }
+  
+  .facebook-blue-bg {
+    background-color: #4267B2; /* Facebook blue color */
+    color: white;
+  }
+  
+  .project-stat-card:hover .card-bottom {
+    animation: none; /* Disable animation on hover */
+  }
+
+  @keyframes moveUpDown {
+    0% {
+      transform: translateY(0); /* Start position */
+    }
+    100% {
+      transform: translateY(-50%); /* End position */
+    }
+  }
+
+  .button {
+    position: relative;
+    background: #4267B2; /* Set button background color */
+    overflow: hidden;
+  }
+  
