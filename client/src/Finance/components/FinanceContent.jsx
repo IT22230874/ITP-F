@@ -35,7 +35,7 @@ function FinanceContent() {
             ? "Projects"
             : "Liabilities"
         }
-        btname="publish"
+        btname="Add"
         handleClick={() => displayForm()}
       />
       <div className="navbar">
