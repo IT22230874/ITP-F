@@ -80,6 +80,10 @@ function EmployeeContent() {
         <button type="button" className="button" onClick={toggleAddGroup}> {/* Add onClick handler for Add Group button */}
           Add Group
         </button>
+
+        <button type="button" className="button"           onClick={() => handleTableChange("employees")}
+> {/* Add onClick handler for Add Group button */}
+Groups        </button>
         {/*<QrReader
           onScan={handleScan}
           onResult={(result, error) => {

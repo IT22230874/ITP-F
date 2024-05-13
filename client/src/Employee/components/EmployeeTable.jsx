@@ -115,6 +115,10 @@ function EmployeeTable() {
     setGroupIdInput("");
   };
 
+  const handleAddGroupTable = () => {
+    setAddGroupTableVisible(false);
+  };
+
   const handleGroupIdInputChange = (e) => {
     setGroupIdInput(e.target.value);
   };
@@ -160,7 +164,7 @@ function EmployeeTable() {
         </button>
       </div>
 
-      <table>
+      <table style={{ width: '110%' }}>
         <thead>
           <tr>
             <th>First Name</th>
@@ -207,11 +211,13 @@ function EmployeeTable() {
       </table>
 
       {addGroupPopupVisible && (
-        <div className="popup">
-          <h3 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Enter Group ID</h3>
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-4 rounded border border-black">
+          <label for="Add group" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Group ID:</label>
           <input type="text" value={groupIdInput} onChange={handleGroupIdInputChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-          <button onClick={handleAddGroupSubmit}>Submit</button>
-          <button onClick={handleAddGroupPopupClose}>Cancel</button>
+          <button onClick={handleAddGroupSubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-2">Submit</button>
+          <button onClick={handleAddGroupPopupClose} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-2">Cancel</button>
+        </div>
         </div>
       )}
 
