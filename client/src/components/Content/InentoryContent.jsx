@@ -6,6 +6,10 @@ import InventoryTable from "../Tables/InventoryTable";
 import MachinaryTable from "../Tables/MachinaryTable";
 import AddMachineForm from "../Forms/AddMachineForm";
 import axios from "axios";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import logo from "../../assets/logo.png";
+import "jspdf-autotable";
 
 function InventoryContent() {
   const [displayForm, setDisplayForm] = useState(false);
@@ -26,31 +30,51 @@ function InventoryContent() {
     setHeading(swapTable ? "Inventory" : "Machinary");
   };
 
-  const getpdf = async () => {
-    try {
-      // Make a GET request to the server-side route for PDF generation
-      const response = await axios.get("/api/machinary/getpdf", {
-        responseType: "blob",
+  const getpdf = () => {
+    const table = document.querySelector("table"); // Assuming your table has 'table' tag
+    const doc = new jsPDF("p", "pt", "a4");
+
+    // Hide action column before taking the screenshot
+    const actionColumn = table.querySelector(".action");
+    actionColumn.style.display = "none";
+
+    // Add logo
+    const img = new Image();
+    img.src = logo; // Assuming 'logo' is imported as an image
+    doc.addImage(img, "PNG", 40, 10, 120, 50); // Adjust the position and size as needed
+
+    // Add table styling
+    const columns = ["ID", "Name", "Quantity", "stock"];
+    const rows = table.querySelectorAll("tbody tr");
+    const tableData = [];
+    rows.forEach((row) => {
+      const rowData = [];
+      row.querySelectorAll("td").forEach((cell) => {
+        rowData.push(cell.textContent.trim());
       });
+      tableData.push(rowData);
+    });
 
-      // Create a URL for the blob
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+    doc.autoTable({
+      head: [columns],
+      body: tableData,
+      startY: 120,
+      theme: "grid",
+      styles: {
+        overflow: "linebreak",
+        columnWidth: "wrap",
+        font: "Arial",
+        fontSize: 10,
+        halign: "center",
+        valign: "middle",
+      },
+    });
 
-      // Create a link element
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "report.pdf");
+    // Show action column again
+    actionColumn.style.display = "table-cell";
 
-      // Append the link to the body and trigger a click event
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup: remove the link element and revoke the URL
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error fetching PDF:", error);
-    }
+    // Save the PDF
+    doc.save("Inventory_report.pdf");
   };
 
   return (
@@ -83,7 +107,7 @@ function InventoryContent() {
       </div>
 
       {displayForm && (
-        <div className="formContainer">
+        <div className="formContainer ">
           <AddItemForm handleClick={handleButtonClick} />
         </div>
       )}

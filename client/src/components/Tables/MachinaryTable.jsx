@@ -224,90 +224,120 @@ function MachinaryTable() {
         <p>{error || "No items found"}</p>
       )}
       {showForm && (
-        <div className="formContainer">
-          <form className="form" onSubmit={handleSubmit}>
-            <button type="button" className="closebtn" onClick={closeForm}>
-              x
-            </button>
-            {error && <p className="error">{error}</p>}
-            {selectedMaterial && (
-              <>
-                <div className="form-group">
-                  <label htmlFor="name">Machine Name:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={selectedMaterial.name || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        name: e.target.value,
-                      })
-                    }
+        <div className="formContainer fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
+          <div className="max-w-md w-full bg-white rounded-lg shadow p-6">
+            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+              <button
+                type="button"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center closebtn"
+                onClick={closeForm}
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="quantity">Quantity:</label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    required
-                    value={selectedMaterial.quantity || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        quantity: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="priceperday">Price:</label>
-                  <input
-                    type="number"
-                    id="priceperday"
-                    name="priceperday"
-                    required
-                    value={selectedMaterial.priceperday || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        priceperday: e.target.value,
-                      })
-                    }
-                  />
-                </div>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+              {error && (
+                <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
+              )}
+              {selectedMaterial && (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="machineName">Machine Name:</label>
+                    <input
+                      type="text"
+                      id="machineName"
+                      name="machineName"
+                      value={selectedMaterial.name || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          name: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  {/* Include other fields similarly */}
+                  <div className="form-group">
+                    <label htmlFor="quantity">Quantity:</label>
+                    <input
+                      type="number"
+                      id="quantity"
+                      name="quantity"
+                      required
+                      value={selectedMaterial.quantity || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          quantity: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="priceperday">Price:</label>
+                    <input
+                      type="number"
+                      id="priceperday"
+                      name="priceperday"
+                      required
+                      value={selectedMaterial.priceperday || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          priceperday: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="stock">Stock :</label>
+                    <select
+                      id="stock"
+                      name="stock"
+                      required
+                      value={selectedMaterial.stock || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          stock: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    >
+                      <option value="available">Available</option>
+                      <option value="unavailable">Unavailable</option>
+                      <option value="low stock">Low Stock</option>
+                      <option value="service">Service</option>
+                      <option value="rented">Rented</option>
+                    </select>
+                  </div>
 
-                <div className="form-group">
-                  <label htmlFor="stock">Stock :</label>
-                  <select
-                    id="stock"
-                    name="stock"
-                    required
-                    value={selectedMaterial.stock || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        stock: e.target.value,
-                      })
-                    }
+                  <button
+                    className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    type="submit"
                   >
-                    <option value="available">Available</option>
-                    <option value="unavailable">Unavailable</option>
-                    <option value="low stock">Low Stock</option>
-                    <option value="service">Service</option>
-                    <option value="rented">Rented</option>
-                  </select>
-                </div>
-
-                <button className="button" type="submit">
-                  Update Machine
-                </button>
-              </>
-            )}
-          </form>
+                    Update Machine
+                  </button>
+                </>
+              )}
+            </form>
+          </div>
         </div>
       )}
     </div>

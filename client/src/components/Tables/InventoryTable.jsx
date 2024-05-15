@@ -19,8 +19,6 @@ function InventoryTable() {
     stock: "",
   });
 
-  let datafetchGloable;
-
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState({
     name: "",
@@ -49,7 +47,6 @@ function InventoryTable() {
       }
     };
 
-    datafetchGloable = fetchData;
     fetchData();
   }, [filter]);
 
@@ -189,7 +186,7 @@ function InventoryTable() {
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Stock</th>
-                <th>Action</th>
+                <th className="action">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -226,153 +223,187 @@ function InventoryTable() {
         <p>{error || "No items found"}</p>
       )}
       {showForm && (
-        <div className="formContainer">
-          <form className="form" onSubmit={handleSubmit}>
-            <button type="button" className="closebtn" onClick={closeForm}>
-              x
-            </button>
-            {error && <p className="error">{error}</p>}
-            {selectedMaterial && (
-              <>
-                <div className="form-group">
-                  <label htmlFor="name">Item Name:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={selectedMaterial.name || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        name: e.target.value,
-                      })
-                    }
+        <div className="formContainer fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
+          <div className="max-w-md w-full bg-white rounded-lg shadow p-6">
+            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+              <button
+                type="button"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center closebtn"
+                onClick={closeForm}
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="quantity">Quantity:</label>
-                  <input
-                    type="number"
-                    id="quantity"
-                    name="quantity"
-                    required
-                    value={selectedMaterial.quantity || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        quantity: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                {/* Include other fields similarly */}
-                <div className="form-group">
-                  <label htmlFor="budget">Budget:</label>
-                  <input
-                    type="text"
-                    id="budget"
-                    name="budget"
-                    value={selectedMaterial.budget || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        budget: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="unitofmeasure">Unit of Measure:</label>
-                  <select
-                    id="unitofmeasure"
-                    name="unitofmeasure"
-                    value={selectedMaterial.unitofmeasure || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        unitofmeasure: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="">Select unit...</option>
-                    <option value="kg">Kilogram</option>
-                    <option value="m3">Meter Cube</option>
-                    <option value="l">Liters</option>
-                    <option value="packs">Packets</option>
-                    <option value="blocks">Blocks</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="stock">Stock :</label>
-                  <select
-                    id="stock"
-                    name="stock"
-                    required
-                    value={selectedMaterial.stock || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        stock: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="available">Available</option>
-                    <option value="unavailable">Unavailable</option>
-                    <option value="low stock">LowStock</option>
-                    <option value="service">Service</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="payee">Payee:</label>
-                  <input
-                    type="text"
-                    id="payee"
-                    name="payee"
-                    value={selectedMaterial.payee || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        payee: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="date">Date:</label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    value={selectedMaterial.date || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        date: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="description">Description:</label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    value={selectedMaterial.description || ""}
-                    onChange={(e) =>
-                      setSelectedMaterial({
-                        ...selectedMaterial,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                </div>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+              {error && (
+                <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
+              )}
+              {selectedMaterial && (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="name">Item Name:</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={selectedMaterial.name || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          name: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="quantity">Quantity:</label>
+                    <input
+                      type="number"
+                      id="quantity"
+                      name="quantity"
+                      required
+                      value={selectedMaterial.quantity || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          quantity: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  {/* Include other fields similarly */}
+                  <div className="form-group">
+                    <label htmlFor="budget">Budget:</label>
+                    <input
+                      type="text"
+                      id="budget"
+                      name="budget"
+                      value={selectedMaterial.budget || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          budget: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="unitofmeasure">Unit of Measure:</label>
+                    <select
+                      id="unitofmeasure"
+                      name="unitofmeasure"
+                      value={selectedMaterial.unitofmeasure || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          unitofmeasure: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    >
+                      <option value="">Select unit...</option>
+                      <option value="kg">Kilogram</option>
+                      <option value="m3">Meter Cube</option>
+                      <option value="l">Liters</option>
+                      <option value="packs">Packets</option>
+                      <option value="blocks">Blocks</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="stock">Stock :</label>
+                    <select
+                      id="stock"
+                      name="stock"
+                      required
+                      value={selectedMaterial.stock || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          stock: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    >
+                      <option value="available">Available</option>
+                      <option value="unavailable">Unavailable</option>
+                      <option value="low stock">LowStock</option>
+                      <option value="service">Service</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="payee">Payee:</label>
+                    <input
+                      type="text"
+                      id="payee"
+                      name="payee"
+                      value={selectedMaterial.payee || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          payee: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="date">Date:</label>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      value={selectedMaterial.date || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          date: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="description">Description:</label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={selectedMaterial.description || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          description: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 mb-4 w-full"
+                    />
+                  </div>
 
-                <button className="button" type="submit">
-                  Update Item
-                </button>
-              </>
-            )}
-          </form>
+                  <button
+                    className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    type="submit"
+                  >
+                    Update Item
+                  </button>
+                </>
+              )}
+            </form>
+          </div>
         </div>
       )}
     </div>

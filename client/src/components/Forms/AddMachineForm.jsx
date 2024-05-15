@@ -9,7 +9,7 @@ function AddMachineForm({ handleClick }) {
     date: "",
     description: "",
     priceperday: "",
-    image: null, // For storing the selected image file
+    image: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -20,13 +20,43 @@ function AddMachineForm({ handleClick }) {
     if (e.target.type === "file") {
       setFormData({
         ...formData,
-        image: e.target.files[0], // Get the first file from the selected files
+        image: e.target.files[0],
       });
     } else {
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
       });
+    }
+
+    // Check if the input is for the quantity, budget, or priceperday field
+    if (
+      e.target.id === "quantity" ||
+      e.target.id === "budget" ||
+      e.target.id === "priceperday"
+    ) {
+      // Validate if the input is a number
+      if (!/^\d+$/.test(e.target.value)) {
+        setError(
+          e.target.id === "quantity"
+            ? "Quantity must be a number."
+            : e.target.id === "budget"
+            ? "Budget must be a number."
+            : "Price per day must be a number."
+        );
+      } else {
+        setError(null); // Clear error if the input is valid
+      }
+    }
+
+    // Check if the input is for the payee field
+    if (e.target.id === "payee") {
+      // Validate if the input contains only letters
+      if (!/^[a-zA-Z]+$/.test(e.target.value)) {
+        setError("Payee must contain only letters.");
+      } else {
+        setError(null); // Clear error if the input is valid
+      }
     }
   };
 
@@ -74,104 +104,145 @@ function AddMachineForm({ handleClick }) {
   };
 
   return (
-    <form className="bg-white p-4 rounded border border-black" onSubmit={handleSubmit}>
-      <button type="button" className="closebtn" onClick={handleClick}>
-        x
-      </button>
-      {error && <p className="error">{error}</p>}
-      {successMessage && <p className="success">{successMessage}</p>}
-      <div className="form-group">
-        <label htmlFor="name">Machine Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          value={formData.name}
-          onChange={handleChange}
-        />
+    <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
+      <div className="max-w-md w-full bg-white rounded-lg shadow p-4">
+        <div className="flex items-center justify-between border-b pb-4">
+          <h3 className="text-xl font-semibold text-gray-900">
+            Add New Machine
+          </h3>
+          <button
+            type="button"
+            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center"
+            onClick={handleClick}
+          >
+            <svg
+              className="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span className="sr-only">Close modal</span>
+          </button>
+        </div>
+        <form className="p-4" onSubmit={handleSubmit}>
+          {error && (
+            <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
+          )}
+          {successMessage && <p className="success">{successMessage}</p>}
+          <div className="form-group">
+            <label htmlFor="name">Machine Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="budget">Budget:</label>
+            <input
+              type="text"
+              id="budget"
+              name="budget"
+              required
+              value={formData.budget}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="quantity">Quantity:</label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value={formData.quantity}
+              required
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="priceperday">Price Per Day:</label>
+            <input
+              type="number"
+              id="priceperday"
+              name="priceperday"
+              value={formData.priceperday}
+              required
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="payee">Payee:</label>
+            <input
+              type="text"
+              id="payee"
+              name="payee"
+              value={formData.payee}
+              required
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="date">Date:</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              required
+              value={formData.date}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description:</label>
+            <textarea
+              type="text"
+              id="description"
+              name="description"
+              required
+              value={formData.description}
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="image">Image:</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              required
+              onChange={handleChange}
+              className="border border-gray-300 p-2 mb-2 w-full"
+            />
+          </div>
+          <button
+            disabled={loading}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="submit"
+          >
+            {loading ? "Wait..." : "Add Machine"}
+          </button>
+        </form>
       </div>
-      <div className="form-group">
-        <label htmlFor="budget">Budget:</label>
-        <input
-          type="text"
-          id="budget"
-          name="budget"
-          required
-          value={formData.budget}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="quantity">Quantity:</label>
-        <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          value={formData.quantity}
-          required
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="priceperday">Price:</label>
-        <input
-          type="number"
-          id="priceperday"
-          name="priceperday"
-          value={formData.priceperday}
-          required
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="payee">Payee:</label>
-        <input
-          type="text"
-          id="payee"
-          name="payee"
-          value={formData.payee}
-          required
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="date">Date:</label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          required
-          value={formData.date}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="description">Description:</label>
-        <textarea
-          type="text"
-          id="description"
-          name="description"
-          required
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="image">Image:</label>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          required
-          onChange={handleChange}
-        />
-      </div>
-      <button disabled={loading} className="button" type="submit">
-        {loading ? "Wait..." : "Add Item"}
-      </button>
-    </form>
+    </div>
   );
 }
 
