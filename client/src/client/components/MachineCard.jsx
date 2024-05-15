@@ -44,7 +44,7 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
         amount: totalCost,
       };
 
-      const response = await axios.post("/api/rent/addrequest/", requestData);
+      const response = await axios.post("/api/rent/addrequest", requestData);
       console.log("Request added successfully:", response.data);
     } catch (error) {
       console.error("Error adding request:", error);

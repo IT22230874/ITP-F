@@ -8,6 +8,11 @@ import axios from "axios";
 import AddEmployeeForm from "./AddEmployee";
 import AddGroup from "./AddGroup"; // Import AddGroup component
 import { QrReader } from 'react-qr-reader';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import logo from "../../assets/logo.png";
+import GroupTable from "./GroupTable";
 
 function EmployeeContent() {
   const [selectedTable, setSelectedTable] = useState("employees");
@@ -39,6 +44,57 @@ function EmployeeContent() {
     }
   };
 
+  const getpdf = () => {
+    const table = document.querySelector("table"); // Assuming your table has 'table' tag
+    const doc = new jsPDF("p", "pt", "a4");
+  
+    // Hide action column before taking the screenshot
+    const actionColumn = table.querySelector(".actions");
+    if (actionColumn) {
+      actionColumn.style.display = "none";
+    }
+  
+    // Add logo
+    const img = new Image();
+    img.src = logo; // Assuming 'logo' is imported as an image
+    img.onload = () => {
+      doc.addImage(img, "PNG", 40, 10, 120, 50); // Adjust the position and size as needed
+      // Add table styling
+      const columns = ["First Name", "Last Name", "Age", " Position", "Email"];
+      const rows = table.querySelectorAll("tbody tr");
+      const tableData = [];
+      rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll("td").forEach((cell) => {
+          rowData.push(cell.textContent.trim());
+        });
+        tableData.push(rowData);
+      });
+  
+      doc.autoTable({
+        head: [columns],
+        body: tableData,
+        startY: 120,
+        theme: "grid",
+        styles: {
+          overflow: "linebreak",
+          columnWidth: "wrap",
+          font: "Arial",
+          fontSize: 10,
+          halign: "center",
+          valign: "middle",
+        },
+      });
+  
+      // Show action column again
+      if (actionColumn) {
+        actionColumn.style.display = "table-cell";
+      }
+  
+      // Save the PDF
+      doc.save("emp_report.pdf");
+    };
+  };
 
 
 
@@ -65,6 +121,13 @@ function EmployeeContent() {
         <button
           type="button"
           className="button"
+          onClick={() => {getpdf()}}
+        >
+          Report
+        </button>
+        <button
+          type="button"
+          className="button"
           onClick={() => handleTableChange("attendance")}
         >
           Attendance
@@ -81,9 +144,9 @@ function EmployeeContent() {
           Add Group
         </button>
 
-        <button type="button" className="button"           onClick={() => handleTableChange("employees")}
-> {/* Add onClick handler for Add Group button */}
-Groups        </button>
+        <button type="button" className="button"  onClick={() => handleTableChange("group")}> 
+          Groups       
+        </button>
         {/*<QrReader
           onScan={handleScan}
           onResult={(result, error) => {
@@ -101,6 +164,7 @@ Groups        </button>
 
       {selectedTable === "employees" && <EmployeeTable />}
       {selectedTable === "attendance" && <AttendenceTable />}
+      {selectedTable === "group" && <GroupTable />}
 
       {showForm && (
         <div className="formcontainer ">

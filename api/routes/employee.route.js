@@ -12,7 +12,8 @@ const {
     getAttendance,
     attendanceAnalysis,
     getAttendanceSummary,
-    displayAttendence
+    displayAttendence,
+    displayGroups
 } = require('../controllers/Employee/employee.controller.js');
 
 const router = express.Router();
@@ -43,5 +44,6 @@ router.get('/attendance/summary', async (req, res, next) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+router.get("/groups", displayGroups);
 
 module.exports = router;

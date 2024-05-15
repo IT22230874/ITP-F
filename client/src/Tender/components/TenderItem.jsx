@@ -26,20 +26,36 @@ function RentItem({ tender, onClose }) {
   return (
     <div className="formcontainer">
       <div className="view popup">
-        <label>Title</label>
-        <input type="text" name="title" readOnly value={tender.title} />
-        <label>Tender ID</label>
-        <input type="text" name="id" readOnly value={tender.tid} />
-        <label>Published Date</label>
-        <input type="text" name="publishdate" readOnly value={tender.publishdate} />
-        <label>Closing Date</label>
-        <input type="text" name="startdate" readOnly value={tender.closedate} />
-        <label>Location</label>
-        <input type="text" name="location" readOnly value={tender.location} />
-        <label>Status</label>
-        <input type="text" name="status" readOnly value={tender.status} />
-        <label>Description</label>
-        <input type="text" name="description" readOnly value={tender.description} />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block">Title</label>
+            <input type="text" name="title" readOnly value={tender.title} className="input" />
+          </div>
+          <div>
+            <label className="block">Tender ID</label>
+            <input type="text" name="id" readOnly value={tender.tid} className="input" />
+          </div>
+          <div>
+            <label className="block">Published Date</label>
+            <input type="text" name="publishdate" readOnly value={tender.publishdate} className="input" />
+          </div>
+          <div>
+            <label className="block">Closing Date</label>
+            <input type="text" name="startdate" readOnly value={tender.closedate} className="input" />
+          </div>
+          <div>
+            <label className="block">Location</label>
+            <input type="text" name="location" readOnly value={tender.location} className="input" />
+          </div>
+          <div>
+            <label className="block">Status</label>
+            <input type="text" name="status" readOnly value={tender.status} className="input" />
+          </div>
+          <div className="col-span-2">
+            <label className="block">Description</label>
+            <input type="text" name="description" readOnly value={tender.description} className="input" />
+          </div>
+        </div>
 
         {/* Form to update status */}
         <button type="button" className="add" onClick={handleExtendForm}>Update Status</button>
@@ -49,6 +65,7 @@ function RentItem({ tender, onClose }) {
             <select
               value={newStatus}
               onChange={(e) => setNewStatus(e.target.value)}
+              className="input"
             >
               <option value="bidded">Bidded</option>
               <option value="ongoing">Ongoing</option>
@@ -64,6 +81,7 @@ function RentItem({ tender, onClose }) {
       </div>
     </div>
   );
+
 }
 
 export default RentItem;

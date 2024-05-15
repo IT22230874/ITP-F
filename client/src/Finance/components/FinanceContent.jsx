@@ -77,10 +77,10 @@ function FinanceContent() {
       {publish && (
         <div className="popup-container">
           {selectedTable === "income" && (<div className="popup">
-          <AddIncome />
+          <AddIncome closeForm={displayForm}/>
           </div>)}
-          {selectedTable === "expense" && (<div className="popup"><AddExpense /> </div>)}
-          {selectedTable === "liabilities" && (<div className="popup"><AddLiability /> </div>)}
+          {selectedTable === "expense" && (<div className="popup"><AddExpense closeForm={displayForm} /> </div>)}
+          {selectedTable === "liabilities" && (<div className="popup"><AddLiability closeForm={displayForm}/> </div>)}
           {/* Similar logic for AddLiabilitiesForm */}
         </div>
       )}
