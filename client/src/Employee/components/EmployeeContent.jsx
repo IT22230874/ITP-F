@@ -7,11 +7,15 @@ import AttendenceTable from "./AttendenceTable";
 import axios from "axios";
 import AddEmployeeForm from "./AddEmployee";
 import AddGroup from "./AddGroup"; // Import AddGroup component
+<<<<<<< HEAD
 import { QrReader } from 'react-qr-reader';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import logo from "../../assets/logo.png";
+=======
+import { QrReader } from "react-qr-reader";
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
 import GroupTable from "./GroupTable";
 
 function EmployeeContent() {
@@ -26,7 +30,6 @@ function EmployeeContent() {
   const displayForm = () => {
     setShowForm(!showForm);
   };
-  
 
   const toggleAddGroup = () => {
     setShowAddGroup(!showAddGroup); // Toggle the state to show/hide Add Group component
@@ -44,6 +47,7 @@ function EmployeeContent() {
     }
   };
 
+<<<<<<< HEAD
   const getpdf = () => {
     const table = document.querySelector("table"); // Assuming your table has 'table' tag
     const doc = new jsPDF("p", "pt", "a4");
@@ -98,14 +102,12 @@ function EmployeeContent() {
 
 
 
+=======
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
   return (
     <div className="dashboard">
       <PageIntroduction
-        heading={
-          selectedTable === "employees"
-            ? "Employees"
-            : "Attendance"
-        }
+        heading={selectedTable === "employees" ? "Employees" : "Attendance"}
         btname="Add Employee"
         handleClick={displayForm}
       />
@@ -132,20 +134,29 @@ function EmployeeContent() {
         >
           Attendance
         </button>
-        <button
-          type="button"
-          className="button"
-          onClick={() => handleScan()}
-        >
+        <button type="button" className="button" onClick={() => handleScan()}>
           ScanQr
         </button>
 
-        <button type="button" className="button" onClick={toggleAddGroup}> {/* Add onClick handler for Add Group button */}
+        <button type="button" className="button" onClick={toggleAddGroup}>
+          {" "}
+          {/* Add onClick handler for Add Group button */}
           Add Group
         </button>
 
+<<<<<<< HEAD
         <button type="button" className="button"  onClick={() => handleTableChange("group")}> 
           Groups       
+=======
+        <button
+          type="button"
+          className="button"
+          onClick={() => handleTableChange("group")}
+        >
+          {" "}
+          {/* Add onClick handler for Add Group button */}
+          Groups{" "}
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
         </button>
         {/*<QrReader
           onScan={handleScan}
@@ -161,19 +172,26 @@ function EmployeeContent() {
           style={{ width: '100%' }}
         />*/}
       </div>
-
       {selectedTable === "employees" && <EmployeeTable />}
       {selectedTable === "attendance" && <AttendenceTable />}
       {selectedTable === "group" && <GroupTable />}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
       {showForm && (
         <div className="formcontainer ">
           <AddEmployeeForm closeForm={displayForm} />
         </div>
       )}
-      
-        {showAddGroup && <AddGroup close={() => {toggleAddGroup ()}} />} {/* Render AddGroup component if showAddGroup state is true */}
-      
+      {showAddGroup && (
+        <AddGroup
+          close={() => {
+            toggleAddGroup();
+          }}
+        />
+      )}{" "}
+      {/* Render AddGroup component if showAddGroup state is true */}
     </div>
   );
 }

@@ -28,14 +28,18 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
         return;
       }
 
+      console.log(profileDataString);
+
       const profileData = profileDataString;
 
+      console.log(profileData);
       if (!profileData) {
         console.error("Invalid profile data");
         return;
       }
 
       const clientid = profileData;
+      console.log(clientid, machineid, startDate, endDate, totalCost);
       const requestData = {
         clientid,
         machineid,

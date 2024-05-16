@@ -29,7 +29,11 @@ function GroupTable() {
   // const fetchSalaryData = () => {
   //   if (filterEmpId.trim() !== "") {
   //     axios
+<<<<<<< HEAD
   //       .get(/api/employee/salary/${filterEmpId})
+=======
+  //       .get(`/api/employee/salary/${filterEmpId}`)
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
   //       .then((response) => {
   //         setSalaryData(response.data);
   //         // Check if salary is paid for the current month
@@ -43,7 +47,11 @@ function GroupTable() {
 
   //     // Fetch salaryPerDay from employee collection
   //     axios
+<<<<<<< HEAD
   //       .get(/api/employee/${filterEmpId})
+=======
+  //       .get(`/api/employee/${filterEmpId}`)
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
   //       .then((response) => {
   //         const employeeData = response.data;
   //         // Assuming salaryPerDay is a field in the employee collection
@@ -120,4 +128,8 @@ function GroupTable() {
   );
 }
 
+<<<<<<< HEAD
 export default GroupTable;
+=======
+export default GroupTable;
+>>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
