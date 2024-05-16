@@ -16,6 +16,8 @@ function AddMachineForm({ handleClick }) {
   const [successMessage, setSuccessMessage] = useState(null);
 
   const handleChange = (e) => {
+    const { id, value } = e.target;
+
     // If the input is a file input for image, update the image property with the file
     if (e.target.type === "file") {
       setFormData({
@@ -25,22 +27,18 @@ function AddMachineForm({ handleClick }) {
     } else {
       setFormData({
         ...formData,
-        [e.target.id]: e.target.value,
+        [id]: value,
       });
     }
 
-    // Check if the input is for the quantity, budget, or priceperday field
-    if (
-      e.target.id === "quantity" ||
-      e.target.id === "budget" ||
-      e.target.id === "priceperday"
-    ) {
+    // Check if the input is for the quantity, budget, priceperday, or name field
+    if (id === "quantity" || id === "budget" || id === "priceperday") {
       // Validate if the input is a number
-      if (!/^\d+$/.test(e.target.value)) {
+      if (!/^\d+$/.test(value)) {
         setError(
-          e.target.id === "quantity"
+          id === "quantity"
             ? "Quantity must be a number."
-            : e.target.id === "budget"
+            : id === "budget"
             ? "Budget must be a number."
             : "Price per day must be a number."
         );
@@ -49,11 +47,15 @@ function AddMachineForm({ handleClick }) {
       }
     }
 
-    // Check if the input is for the payee field
-    if (e.target.id === "payee") {
+    // Check if the input is for the payee or name field
+    if (id === "payee" || id === "name") {
       // Validate if the input contains only letters
-      if (!/^[a-zA-Z]+$/.test(e.target.value)) {
-        setError("Payee must contain only letters.");
+      if (!/^[a-zA-Z\s]+$/.test(value)) {
+        setError(
+          id === "payee"
+            ? "Payee must contain only letters."
+            : "Machine name must contain only letters."
+        );
       } else {
         setError(null); // Clear error if the input is valid
       }
@@ -147,6 +149,12 @@ function AddMachineForm({ handleClick }) {
               required
               value={formData.name}
               onChange={handleChange}
+              onKeyPress={(e) => {
+                if (!/^[a-zA-Z\s]+$/.test(e.key)) {
+                  e.preventDefault();
+                  setError("Machine name must contain only letters.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-2 w-full"
             />
           </div>
@@ -159,6 +167,12 @@ function AddMachineForm({ handleClick }) {
               required
               value={formData.budget}
               onChange={handleChange}
+              onKeyPress={(e) => {
+                if (!/^\d+$/.test(e.key)) {
+                  e.preventDefault();
+                  setError("Budget must be a number.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-2 w-full"
             />
           </div>
@@ -171,6 +185,12 @@ function AddMachineForm({ handleClick }) {
               value={formData.quantity}
               required
               onChange={handleChange}
+              onKeyPress={(e) => {
+                if (!/^\d+$/.test(e.key)) {
+                  e.preventDefault();
+                  setError("Quantity must be a number.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-2 w-full"
             />
           </div>
@@ -183,6 +203,12 @@ function AddMachineForm({ handleClick }) {
               value={formData.priceperday}
               required
               onChange={handleChange}
+              onKeyPress={(e) => {
+                if (!/^\d+$/.test(e.key)) {
+                  e.preventDefault();
+                  setError("Price per day must be a number.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-2 w-full"
             />
           </div>
@@ -195,6 +221,12 @@ function AddMachineForm({ handleClick }) {
               value={formData.payee}
               required
               onChange={handleChange}
+              onKeyPress={(e) => {
+                if (!/^[a-zA-Z\s]+$/.test(e.key)) {
+                  e.preventDefault();
+                  setError("Payee must contain only letters.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-2 w-full"
             />
           </div>

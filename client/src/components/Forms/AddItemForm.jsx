@@ -34,6 +34,16 @@ function AddItemForm({ handleClick }) {
       }
     }
 
+    // Check if the input is for the item name field
+    if (id === "name") {
+      // Validate if the input contains only letters
+      if (!/^[a-zA-Z]+$/.test(value)) {
+        setError("Item must contain only letters.");
+      } else {
+        setError(null); // Clear error if the input is valid
+      }
+    }
+
     // Update formData
     setFormData({
       ...formData,
@@ -113,6 +123,13 @@ function AddItemForm({ handleClick }) {
               required
               value={formData.name || ""}
               onChange={handleChange}
+              onKeyPress={(e) => {
+                const regex = /^[a-zA-Z]+$/;
+                if (!regex.test(e.key)) {
+                  e.preventDefault();
+                  setError("Item must contain only letters.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-4 w-full"
             />
           </div>
@@ -125,6 +142,13 @@ function AddItemForm({ handleClick }) {
               required
               value={formData.budget || ""}
               onChange={handleChange}
+              onKeyPress={(e) => {
+                const regex = /^[0-9\b]+$/;
+                if (!regex.test(e.key)) {
+                  e.preventDefault();
+                  setError("Budget must be a number.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-4 w-full"
             />
           </div>
@@ -149,12 +173,19 @@ function AddItemForm({ handleClick }) {
           <div className="form-group">
             <label htmlFor="quantity">Quantity:</label>
             <input
-              type="number"
+              type="text"
               id="quantity"
               name="quantity"
               value={formData.quantity || ""}
               required
               onChange={handleChange}
+              onKeyPress={(e) => {
+                const regex = /^[0-9\b]+$/;
+                if (!regex.test(e.key)) {
+                  e.preventDefault();
+                  setError("Quantity must be a number.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-4 w-full"
             />
           </div>
@@ -167,6 +198,13 @@ function AddItemForm({ handleClick }) {
               value={formData.payee || ""}
               required
               onChange={handleChange}
+              onKeyPress={(e) => {
+                const regex = /^[a-zA-Z]+$/;
+                if (!regex.test(e.key)) {
+                  e.preventDefault();
+                  setError("Payee must contain only letters.");
+                }
+              }}
               className="border border-gray-300 p-2 mb-4 w-full"
             />
           </div>
@@ -206,4 +244,5 @@ function AddItemForm({ handleClick }) {
     </div>
   );
 }
+
 export default AddItemForm;
