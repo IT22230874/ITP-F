@@ -1,22 +1,5 @@
 const express = require("express");
 const {
-<<<<<<< HEAD
-    addEmployee,
-    editEmployee,
-    removeEmployee,
-    displayEmployees,
-    createGroup,
-    deleteGroup,
-    addMemberToGroup,
-    removeMemberFromGroup,
-    attendanceQr,
-    getAttendance,
-    attendanceAnalysis,
-    getAttendanceSummary,
-    displayAttendence,
-    displayGroups
-} = require('../controllers/Employee/employee.controller.js');
-=======
   addEmployee,
   editEmployee,
   removeEmployee,
@@ -32,7 +15,6 @@ const {
   getAttendanceSummary,
   displayAttendence,
 } = require("../controllers/Employee/employee.controller.js");
->>>>>>> 3d6573bb9d369238a35536264f4ca2021f7cce33
 
 const router = express.Router();
 
