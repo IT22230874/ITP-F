@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FiFilter, FiRefreshCcw, FiEye, FiTrash2, FiDollarSign, FiPrinter } from "react-icons/fi";
+import { FiFilter, FiRefreshCcw, FiEye, FiTrash2, FiDollarSign } from "react-icons/fi";
 import Popup from "./Popup"; // Assuming you have a Popup component for displaying details
-import jsPDF from 'jspdf';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 function ProjectFinanceTable() {
   const [projectFinanceData, setProjectFinanceData] = useState([]);
@@ -134,7 +135,6 @@ function ProjectFinanceTable() {
       URL.revokeObjectURL(pdfUrl);
     }
   };
-  
 
   return (
     <div>

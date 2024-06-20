@@ -3,6 +3,16 @@ const EmployeeModel = require("../../modules/Employee/employee.model");
 const GroupModel = require("../../modules/Employee/projectgroups.model");
 const qrcode = require("qrcode");
 
+// const displayGroups = async (req, res, next) => {
+//     try {
+//       const allGroups = await GroupModel.find();
+//       return res.json({ data: allGroups });
+//     } catch (error) {
+//       console.error("Error displaying employees:", error);
+//       return res.status(500).json({ message: "Internal server error" });
+//     }
+//   };
+
 const addEmployee = async (req, res, next) => {
   try {
     const {

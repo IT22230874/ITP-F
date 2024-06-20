@@ -45,5 +45,6 @@ router.get("/attendance/summary", async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+router.get("/groups", displayGroups);
 
 module.exports = router;

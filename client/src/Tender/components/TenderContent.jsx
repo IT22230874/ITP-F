@@ -7,6 +7,10 @@ import PublishedTable from "./PublishedTable";
 import Bidtable from "./Bidtable";
 import axios from "axios";
 import BidsDisplay from "./BidsDisplay";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import logo from "../../assets/logo.png";
 
 
 function TenderContent() {
@@ -17,32 +21,58 @@ function TenderContent() {
     setSelectedTable(tableName);
   };
 
-  const getpdf = async () => {
-    try {
-      // Make a GET request to the server-side route for PDF generation
-      const response = await axios.get("/api/tender/getpdf", {
-        responseType: "blob",
-      });
-
-      // Create a URL for the blob
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      // Create a link element
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "TenderReport.pdf");
-
-      // Append the link to the body and trigger a click event
-      document.body.appendChild(link);
-      link.click();
-
-      // Cleanup: remove the link element and revoke the URL
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error fetching PDF:", error);
+  const getpdf = () => {
+    const table = document.querySelector("table"); // Assuming your table has 'table' tag
+    const doc = new jsPDF("p", "pt", "a4");
+  
+    // Hide action column before taking the screenshot
+    const actionColumn = table.querySelector(".actions");
+    if (actionColumn) {
+      actionColumn.style.display = "none";
     }
+  
+    // Add logo
+    const img = new Image();
+    img.src = logo; // Assuming 'logo' is imported as an image
+    img.onload = () => {
+      doc.addImage(img, "PNG", 40, 10, 120, 50); // Adjust the position and size as needed
+      // Add table styling
+      const columns = ["Tender ID", "Title", "Published Date", "Closing Date", "Status"];
+      const rows = table.querySelectorAll("tbody tr");
+      const tableData = [];
+      rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll("td").forEach((cell) => {
+          rowData.push(cell.textContent.trim());
+        });
+        tableData.push(rowData);
+      });
+  
+      doc.autoTable({
+        head: [columns],
+        body: tableData,
+        startY: 120,
+        theme: "grid",
+        styles: {
+          overflow: "linebreak",
+          columnWidth: "wrap",
+          font: "Arial",
+          fontSize: 10,
+          halign: "center",
+          valign: "middle",
+        },
+      });
+  
+      // Show action column again
+      if (actionColumn) {
+        actionColumn.style.display = "table-cell";
+      }
+  
+      // Save the PDF
+      doc.save("tender_report.pdf");
+    };
   };
+  
 
   const displayForm = () => {
     setPublish(!publish);
@@ -60,8 +90,10 @@ function TenderContent() {
         }
         btname="publish a tender"
         handleClick={() => displayForm()}
+
+
       />
-      <AnalysisSection />
+      {/*<AnalysisSection />*/}
       <div className="navbar">
         <button
           type="button"
@@ -97,6 +129,7 @@ function TenderContent() {
         {publish && (
           <div className="formcontainer">
             <BidsDisplay close={displayForm}/>
+
           </div>
         )}
     </div>

@@ -39,56 +39,7 @@ function AddEmployee({closeForm}) {
   };
 
   return (
-    // <div className="max-w-md mx-auto">
-    //   <h2>Add Employee</h2>
-    //   <form onSubmit={handleSubmit}>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="fname">First Name:</label>
-    //       <input type="text" id="fname" name="fname" value={formData.fname} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="lname">Last Name:</label>
-    //       <input type="text" id="lname" name="lname" value={formData.lname} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="age">Age:</label>
-    //       <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="tel">Telephone:</label>
-    //       <input type="text" id="tel" name="tel" value={formData.tel} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="email">Email:</label>
-    //       <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="position">Position:</label>
-    //       <input type="text" id="position" name="position" value={formData.position} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="nic">NIC:</label>
-    //       <input type="text" id="nic" name="nic" value={formData.nic} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="dob">Date of Birth:</label>
-    //       <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="address">Address:</label>
-    //       <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="joindate">Join Date:</label>
-    //       <input type="date" id="joindate" name="joindate" value={formData.joindate} onChange={handleChange} required />
-    //     </div>
-    //     <div className="relative z-0 w-full mb-5 group">
-    //       <label htmlFor="salary">Salary:</label>
-    //       <input type="text" id="salary" name="salary" value={formData.salary} onChange={handleChange} required />
-    //     </div>
-    //     <button type="submit">Add Employee</button>
-    //   </form>
-    // </div>
+    
 
 
 <form onSubmit={handleSubmit} className="bg-white p-4 rounded border border-black">

@@ -28,14 +28,18 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
         return;
       }
 
+      console.log(profileDataString);
+
       const profileData = profileDataString;
 
+      console.log(profileData);
       if (!profileData) {
         console.error("Invalid profile data");
         return;
       }
 
       const clientid = profileData;
+      console.log(clientid, machineid, startDate, endDate, totalCost);
       const requestData = {
         clientid,
         machineid,
@@ -44,7 +48,7 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
         amount: totalCost,
       };
 
-      const response = await axios.post("/api/rent/addrequest/", requestData);
+      const response = await axios.post("/api/rent/addrequest", requestData);
       console.log("Request added successfully:", response.data);
     } catch (error) {
       console.error("Error adding request:", error);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function AddIncome() {
+function AddIncome({closeForm}) {
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState("");
   const [source, setSource] = useState("");
@@ -31,10 +31,18 @@ function AddIncome() {
     }
   };
 
+  const handleClose = () => {
+    closeForm()
+  }
+
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
       <div className="bg-white p-8 rounded shadow-md">
+        <div style={{display: "flex", alignItems: "center",justifyContent: "space-between", width: "100%"}}>
         <h2 className="text-2xl font-bold mb-4">Add Income</h2>
+        
+        <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 col-span-2 rounded" onClick={()=>{closeForm()}}>X</button>
+        </div>
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="date">Date:</label>
@@ -57,6 +65,7 @@ function AddIncome() {
             <input id="description" type="text" value={description} onChange={(e) => setDescription(e.target.value)} required className="w-full border rounded py-2 px-3" />
           </div>
           <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 col-span-2 rounded">Add Income</button>
+          
         </form>
       </div>
     </div>
