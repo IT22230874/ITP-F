@@ -88,7 +88,7 @@ function EmployeeContent() {
           {/* Add onClick handler for Add Group button */}
           Groups{" "}
         </button>
-        <QrReader
+        {/*<QrReader
           onScan={handleScan}
           onResult={(result, error) => {
             if (!!result) {
@@ -100,7 +100,7 @@ function EmployeeContent() {
             }
           }}
           style={{ width: '100%' }}
-        />
+        />*/}
       </div>
       {selectedTable === "employees" && <EmployeeTable />}
       {selectedTable === "attendance" && <AttendenceTable />}

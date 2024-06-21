@@ -53,8 +53,6 @@ function IncomeTable() {
 
   return (
     <div>
-
-
       <div className="filter">
         <span><FiFilter /></span>
         <span>Filter By</span>

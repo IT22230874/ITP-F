@@ -1,4 +1,5 @@
 const AttendenceModel = require("../../modules/Employee/attendence.model");
+const AttendanceModel = require("../../modules/Employee/attendance.model");
 const EmployeeModel = require("../../modules/Employee/employee.model");
 const GroupModel = require("../../modules/Employee/projectgroups.model");
 const qrcode = require("qrcode");
@@ -16,6 +17,7 @@ const qrcode = require("qrcode");
 const addEmployee = async (req, res, next) => {
   try {
     const {
+      emp_id,
       fname,
       lname,
       age,
@@ -32,6 +34,7 @@ const addEmployee = async (req, res, next) => {
     const gid = "null";
 
     const newEmployee = new EmployeeModel({
+      emp_id,
       fname,
       lname,
       age,
@@ -112,6 +115,17 @@ const displayEmployees = async (req, res, next) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+const displayAttendence = async (req, res, next) => {
+  try {
+    const allAttendance = await AttendanceModel.find();
+    return res.json({ data: allAttendance });
+  } catch (error) {
+    console.error("Error displaying attendance records:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const displayGroups = async (req, res, next) => {
   try {
     const allGroups = await GroupModel.find();
@@ -372,8 +386,8 @@ const getAttendanceSummary = async () => {
   }
 };
 
-const displayAttendence = async (req, res, next) => {
-  const ob = await AttendenceModel.find();
+const displayAttendance = async (req, res, next) => {
+  const ob = await AttendanceModel.find();
   return res.json({ data: ob });
 };
 
@@ -392,4 +406,5 @@ module.exports = {
   attendanceAnalysis,
   getAttendanceSummary,
   displayAttendence,
+  displayAttendance,
 };

@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function AddEmployee({closeForm}) {
   const [formData, setFormData] = useState({
+    emp_id: '',
     fname: '',
     lname: '',
     age: '',
@@ -44,6 +45,10 @@ function AddEmployee({closeForm}) {
 
 <form onSubmit={handleSubmit} className="bg-white p-4 rounded border border-black">
     <div class="grid gap-6 mb-6 md:grid-cols-2 ">
+        <div>
+            <label for="emp_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee ID </label>
+            <input type="text" id="emp_id" name="emp_id" value={formData.emp_id} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
+        </div>
         <div>
             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
             <input pattern="[A-Za-z]+" type="text" id="fname" name="fname" value={formData.fname} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />

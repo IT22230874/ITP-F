@@ -95,7 +95,7 @@ function GroupTable() {
   return (
     <div>
       <div class="mt-10 font-bold">
-        <h2>Attendence Table</h2>
+        <h2>Groups</h2>
       </div>
 
       <table>
