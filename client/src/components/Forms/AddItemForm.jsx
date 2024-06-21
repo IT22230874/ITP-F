@@ -9,42 +9,8 @@ function AddItemForm({ handleClick }) {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    // Validate inputs based on id (name, budget, unitofmeasure, quantity, minStock, payee, date, description)
 
-    // Check if the input is for the quantity or budget field
-    if (id === "quantity" || id === "budget") {
-      // Validate if the input is a number
-      if (!/^\d+$/.test(value)) {
-        setError(
-          id === "quantity"
-            ? "Quantity must be a number."
-            : "Budget must be a number."
-        );
-      } else {
-        setError(null); // Clear error if the input is valid
-      }
-    }
-
-    // Check if the input is for the payee field
-    if (id === "payee") {
-      // Validate if the input contains only letters
-      if (!/^[a-zA-Z]+$/.test(value)) {
-        setError("Payee must contain only letters.");
-      } else {
-        setError(null); // Clear error if the input is valid
-      }
-    }
-
-    // Check if the input is for the item name field
-    if (id === "name") {
-      // Validate if the input contains only letters
-      if (!/^[a-zA-Z]+$/.test(value)) {
-        setError("Item must contain only letters.");
-      } else {
-        setError(null); // Clear error if the input is valid
-      }
-    }
-
-    // Update formData
     setFormData({
       ...formData,
       [id]: value,
@@ -55,35 +21,27 @@ function AddItemForm({ handleClick }) {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("/api/inventory/additem", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
+      const res = await axios.post("/api/inventory/additem", formData);
+      const data = res.data;
 
       if (!data.success) {
-        setLoading(false);
         setError(data.message);
         setSuccessMessage(null);
-        return;
+      } else {
+        setSuccessMessage(data.message);
+        setError(null);
+        setFormData({});
       }
-
-      setLoading(false);
-      setError(null);
-      setSuccessMessage(data.message);
-      setFormData({});
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
-      <div className="max-w-md w-full bg-white rounded-lg shadow p-6">
+      <div className="max-w-3xl w-full bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between border-b pb-4">
           <h3 className="text-xl font-semibold text-gray-900">Add New Item</h3>
           <button
@@ -109,13 +67,25 @@ function AddItemForm({ handleClick }) {
             <span className="sr-only">Close modal</span>
           </button>
         </div>
-        <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+        <form
+          className="p-4 md:p-5 grid grid-cols-2 gap-4"
+          onSubmit={handleSubmit}
+        >
           {error && (
-            <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
+            <p className="error col-span-2 text-sm mt-1 mb-2 text-red-600">
+              {error}
+            </p>
           )}
-          {successMessage && <p className="success">{successMessage}</p>}
+          {successMessage && (
+            <p className="success col-span-2">{successMessage}</p>
+          )}
           <div className="form-group">
-            <label htmlFor="name">Item Name:</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Item Name:
+            </label>
             <input
               type="text"
               id="name"
@@ -123,18 +93,16 @@ function AddItemForm({ handleClick }) {
               required
               value={formData.name || ""}
               onChange={handleChange}
-              onKeyPress={(e) => {
-                const regex = /^[a-zA-Z]+$/;
-                if (!regex.test(e.key)) {
-                  e.preventDefault();
-                  setError("Item must contain only letters.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="budget">Budget:</label>
+            <label
+              htmlFor="budget"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Budget:
+            </label>
             <input
               type="text"
               id="budget"
@@ -142,25 +110,24 @@ function AddItemForm({ handleClick }) {
               required
               value={formData.budget || ""}
               onChange={handleChange}
-              onKeyPress={(e) => {
-                const regex = /^[0-9\b]+$/;
-                if (!regex.test(e.key)) {
-                  e.preventDefault();
-                  setError("Budget must be a number.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="unitofmeasure">Unit of Measure:</label>
+            <label
+              htmlFor="unitofmeasure"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Unit of Measure:
+            </label>
             <select
               id="unitofmeasure"
               name="unitofmeasure"
               required
               value={formData.unitofmeasure || ""}
               onChange={handleChange}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 p-2 w-full rounded-md"
+              style={{ maxWidth: "69%" }}
             >
               <option value="">Select unit...</option>
               <option value="kg">Kilogram</option>
@@ -171,7 +138,12 @@ function AddItemForm({ handleClick }) {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="quantity">Quantity:</label>
+            <label
+              htmlFor="quantity"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Quantity:
+            </label>
             <input
               type="text"
               id="quantity"
@@ -179,18 +151,33 @@ function AddItemForm({ handleClick }) {
               value={formData.quantity || ""}
               required
               onChange={handleChange}
-              onKeyPress={(e) => {
-                const regex = /^[0-9\b]+$/;
-                if (!regex.test(e.key)) {
-                  e.preventDefault();
-                  setError("Quantity must be a number.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="payee">Payee:</label>
+            <label
+              htmlFor="minStock"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Min Stock:
+            </label>
+            <input
+              type="text"
+              id="minStock"
+              name="minStock"
+              value={formData.minStock || ""}
+              required
+              onChange={handleChange}
+              className="border border-gray-300 p-2 w-full"
+            />
+          </div>
+          <div className="form-group">
+            <label
+              htmlFor="payee"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Payee:
+            </label>
             <input
               type="text"
               id="payee"
@@ -198,18 +185,16 @@ function AddItemForm({ handleClick }) {
               value={formData.payee || ""}
               required
               onChange={handleChange}
-              onKeyPress={(e) => {
-                const regex = /^[a-zA-Z]+$/;
-                if (!regex.test(e.key)) {
-                  e.preventDefault();
-                  setError("Payee must contain only letters.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="date">Date:</label>
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date:
+            </label>
             <input
               type="date"
               id="date"
@@ -217,28 +202,35 @@ function AddItemForm({ handleClick }) {
               required
               value={formData.date || ""}
               onChange={handleChange}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 p-2 w-full rounded-md"
+              style={{ maxWidth: "69%" }}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="description">Description:</label>
+          <div className="form-group col-span-2">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description:
+            </label>
             <textarea
-              type="text"
               id="description"
               name="description"
               required
               value={formData.description || ""}
               onChange={handleChange}
-              className="border border-gray-300 p-2 mb-4 w-full"
+              className="border border-gray-300 ml-2 p-2 w-full h-24 resize-none"
             />
           </div>
-          <button
-            disabled={loading}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            type="submit"
-          >
-            {loading ? "wait..." : "Add Item"}
-          </button>
+          <div className="form-group col-span-2">
+            <button
+              disabled={loading}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+              type="submit"
+            >
+              {loading ? "Wait..." : "Add Item"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

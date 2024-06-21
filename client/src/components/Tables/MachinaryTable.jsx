@@ -226,7 +226,11 @@ function MachinaryTable() {
       {showForm && (
         <div className="formContainer fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
           <div className="max-w-md w-full bg-white rounded-lg shadow p-6">
-            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+            <div className="flex items-center justify-between border-b pb-4 mb-4">
+              <h3 className="text-xl font-semibold text-gray-900">
+                Update Item Details
+              </h3>
+
               <button
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center closebtn"
@@ -249,13 +253,20 @@ function MachinaryTable() {
                 </svg>
                 <span className="sr-only">Close modal</span>
               </button>
+            </div>
+            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
               {error && (
                 <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
               )}
               {selectedMaterial && (
                 <>
                   <div className="form-group">
-                    <label htmlFor="machineName">Machine Name:</label>
+                    <label
+                      htmlFor="machineName"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Machine Name:
+                    </label>
                     <input
                       type="text"
                       id="machineName"
@@ -272,7 +283,12 @@ function MachinaryTable() {
                   </div>
                   {/* Include other fields similarly */}
                   <div className="form-group">
-                    <label htmlFor="quantity">Quantity:</label>
+                    <label
+                      htmlFor="quantity"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Quantity:
+                    </label>
                     <input
                       type="number"
                       id="quantity"
@@ -289,7 +305,12 @@ function MachinaryTable() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="priceperday">Price:</label>
+                    <label
+                      htmlFor="priceperday"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Price:
+                    </label>
                     <input
                       type="number"
                       id="priceperday"
@@ -306,7 +327,12 @@ function MachinaryTable() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="stock">Stock :</label>
+                    <label
+                      htmlFor="stock"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Stock :
+                    </label>
                     <select
                       id="stock"
                       name="stock"
@@ -318,7 +344,8 @@ function MachinaryTable() {
                           stock: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-md"
+                      style={{ maxWidth: "64%" }}
                     >
                       <option value="available">Available</option>
                       <option value="unavailable">Unavailable</option>
@@ -327,13 +354,14 @@ function MachinaryTable() {
                       <option value="rented">Rented</option>
                     </select>
                   </div>
-
-                  <button
-                    className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    type="submit"
-                  >
-                    Update Machine
-                  </button>
+                  <div className="form-group pt-6">
+                    <button
+                      className="w-full button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      type="submit"
+                    >
+                      Update Machine
+                    </button>
+                  </div>
                 </>
               )}
             </form>

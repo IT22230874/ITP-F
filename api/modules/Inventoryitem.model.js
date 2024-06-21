@@ -22,6 +22,10 @@ const inventory = mongoose.Schema({
     type: String,
     required: true,
   },
+  minStock: {
+    type: Number,
+    required: true,
+  },
 });
 
 const InventoryModel = mongoose.model("Item", inventory);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdEdit, MdDelete } from "react-icons/md";
-import { FiRefreshCcw } from "react-icons/fi";
-import { FiFilter } from "react-icons/fi";
+import { FiRefreshCcw, FiFilter } from "react-icons/fi";
 import axios from "axios";
 
 function InventoryTable() {
@@ -17,6 +16,7 @@ function InventoryTable() {
     payee: "",
     description: "",
     stock: "",
+    minStock: "",
   });
 
   const [error, setError] = useState(null);
@@ -95,8 +95,8 @@ function InventoryTable() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(selectedMaterial);
     try {
+      setLoading(true);
       const res = await axios.patch(
         `/api/inventory/updateitem/${selectedMaterial._id}`,
         {
@@ -108,6 +108,7 @@ function InventoryTable() {
           date: selectedMaterial.date,
           description: selectedMaterial.description,
           stock: selectedMaterial.stock,
+          minStock: selectedMaterial.minStock,
         }
       );
       const data = res.data;
@@ -121,11 +122,12 @@ function InventoryTable() {
         setShowForm(false);
         return;
       }
-
       setError(data.message);
       setShowForm(false);
     } catch (error) {
       console.error("Error updating item:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -224,8 +226,12 @@ function InventoryTable() {
       )}
       {showForm && (
         <div className="formContainer fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
-          <div className="max-w-md w-full bg-white rounded-lg shadow p-6">
-            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+          <div className="max-w-3xl w-full bg-white rounded-lg shadow p-6">
+            <div className="flex items-center justify-between border-b pb-4 mb-4">
+              <h3 className="text-xl font-semibold text-gray-900">
+                Update Item Details
+              </h3>
+
               <button
                 type="button"
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg w-8 h-8 ms-auto inline-flex justify-center items-center closebtn"
@@ -248,13 +254,22 @@ function InventoryTable() {
                 </svg>
                 <span className="sr-only">Close modal</span>
               </button>
+            </div>
+            <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
               {error && (
-                <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
+                <p className="error col-span-2 text-sm mt-1 mb-2 text-red-600">
+                  {error}
+                </p>
               )}
               {selectedMaterial && (
                 <>
-                  <div className="form-group">
-                    <label htmlFor="name">Item Name:</label>
+                  <div className="form-group ">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Item Name:
+                    </label>
                     <input
                       type="text"
                       id="name"
@@ -266,11 +281,16 @@ function InventoryTable() {
                           name: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full"
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="quantity">Quantity:</label>
+                    <label
+                      htmlFor="quantity"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Quantity:
+                    </label>
                     <input
                       type="number"
                       id="quantity"
@@ -283,12 +303,37 @@ function InventoryTable() {
                           quantity: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full"
                     />
                   </div>
-                  {/* Include other fields similarly */}
                   <div className="form-group">
-                    <label htmlFor="budget">Budget:</label>
+                    <label
+                      htmlFor="minStock"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Min Stock:
+                    </label>
+                    <input
+                      type="number"
+                      id="minStock"
+                      name="minStock"
+                      value={selectedMaterial.minStock || ""}
+                      onChange={(e) =>
+                        setSelectedMaterial({
+                          ...selectedMaterial,
+                          minStock: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 p-2 w-full"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label
+                      htmlFor="budget"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Budget:
+                    </label>
                     <input
                       type="text"
                       id="budget"
@@ -300,11 +345,16 @@ function InventoryTable() {
                           budget: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full"
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="unitofmeasure">Unit of Measure:</label>
+                    <label
+                      htmlFor="unitofmeasure"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Unit of Measure:
+                    </label>
                     <select
                       id="unitofmeasure"
                       name="unitofmeasure"
@@ -315,7 +365,8 @@ function InventoryTable() {
                           unitofmeasure: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-md"
+                      style={{ maxWidth: "65%" }}
                     >
                       <option value="">Select unit...</option>
                       <option value="kg">Kilogram</option>
@@ -326,7 +377,12 @@ function InventoryTable() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="stock">Stock :</label>
+                    <label
+                      htmlFor="stock"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Stock :
+                    </label>
                     <select
                       id="stock"
                       name="stock"
@@ -338,7 +394,8 @@ function InventoryTable() {
                           stock: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-md"
+                      style={{ maxWidth: "65%" }}
                     >
                       <option value="available">Available</option>
                       <option value="unavailable">Unavailable</option>
@@ -347,7 +404,12 @@ function InventoryTable() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="payee">Payee:</label>
+                    <label
+                      htmlFor="payee"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Payee:
+                    </label>
                     <input
                       type="text"
                       id="payee"
@@ -359,11 +421,16 @@ function InventoryTable() {
                           payee: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full"
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="date">Date:</label>
+                    <label
+                      htmlFor="date"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Date:
+                    </label>
                     <input
                       type="date"
                       id="date"
@@ -375,11 +442,17 @@ function InventoryTable() {
                           date: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 p-2 w-full rounded-md"
+                      style={{ maxWidth: "65%" }}
                     />
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="description">Description:</label>
+                  <div className="form-group col-span-2">
+                    <label
+                      htmlFor="description"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Description:
+                    </label>
                     <textarea
                       id="description"
                       name="description"
@@ -390,16 +463,19 @@ function InventoryTable() {
                           description: e.target.value,
                         })
                       }
-                      className="border border-gray-300 p-2 mb-4 w-full"
+                      className="border border-gray-300 ml-2 p-2 w-full h-24 resize-none"
                     />
                   </div>
 
-                  <button
-                    className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    type="submit"
-                  >
-                    Update Item
-                  </button>
+                  <div className="form-group col-span-2">
+                    <button
+                      disabled={loading}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                      type="submit"
+                    >
+                      {loading ? "Wait..." : "Update Item"}
+                    </button>
+                  </div>
                 </>
               )}
             </form>
