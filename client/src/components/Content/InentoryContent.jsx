@@ -31,50 +31,97 @@ function InventoryContent() {
   };
 
   const getpdf = () => {
-    const table = document.querySelector("table"); // Assuming your table has 'table' tag
-    const doc = new jsPDF("p", "pt", "a4");
+    if (heading === "Inventory") {
+      const table = document.querySelector("table"); // Assuming your table has 'table' tag
+      const doc = new jsPDF("p", "pt", "a4");
 
-    // Hide action column before taking the screenshot
-    const actionColumn = table.querySelector(".action");
-    actionColumn.style.display = "none";
+      // Hide action column before taking the screenshot
+      const actionColumn = table.querySelector(".action");
+      actionColumn.style.display = "none";
 
-    // Add logo
-    const img = new Image();
-    img.src = logo; // Assuming 'logo' is imported as an image
-    doc.addImage(img, "PNG", 40, 10, 120, 50); // Adjust the position and size as needed
+      // Add logo
+      const img = new Image();
+      img.src = logo; // Assuming 'logo' is imported as an image
+      doc.addImage(img, "PNG", 40, 10, 120, 50); // Adjust the position and size as needed
 
-    // Add table styling
-    const columns = ["ID", "Name", "Quantity", "stock"];
-    const rows = table.querySelectorAll("tbody tr");
-    const tableData = [];
-    rows.forEach((row) => {
-      const rowData = [];
-      row.querySelectorAll("td").forEach((cell) => {
-        rowData.push(cell.textContent.trim());
+      // Add table styling
+      const columns = ["ID", "Name", "Quantity", "stock"];
+      const rows = table.querySelectorAll("tbody tr");
+      const tableData = [];
+      rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll("td").forEach((cell) => {
+          rowData.push(cell.textContent.trim());
+        });
+        tableData.push(rowData);
       });
-      tableData.push(rowData);
-    });
 
-    doc.autoTable({
-      head: [columns],
-      body: tableData,
-      startY: 120,
-      theme: "grid",
-      styles: {
-        overflow: "linebreak",
-        columnWidth: "wrap",
-        font: "Arial",
-        fontSize: 10,
-        halign: "center",
-        valign: "middle",
-      },
-    });
+      doc.autoTable({
+        head: [columns],
+        body: tableData,
+        startY: 120,
+        theme: "grid",
+        styles: {
+          overflow: "linebreak",
+          columnWidth: "wrap",
+          font: "Arial",
+          fontSize: 10,
+          halign: "center",
+          valign: "middle",
+        },
+      });
 
-    // Show action column again
-    actionColumn.style.display = "table-cell";
+      // Show action column again
+      actionColumn.style.display = "table-cell";
 
-    // Save the PDF
-    doc.save("Inventory_report.pdf");
+      // Save the PDF
+      doc.save("Inventory_report.pdf");
+    } else if (heading === "Machinary") {
+      const table = document.querySelector("table"); // Assuming your table has 'table' tag
+      const doc = new jsPDF("p", "pt", "a4");
+
+      // // Hide action column before taking the screenshot
+      // const actionColumn = table.querySelector(".action");
+      // actionColumn.style.display = "none";
+
+      // Add logo
+      const img = new Image();
+      img.src = logo; // Assuming 'logo' is imported as an image
+      doc.addImage(img, "PNG", 40, 10, 120, 50); // Adjust the position and size as needed
+
+      // Add table styling
+      const columns = ["ID", "Name", "Quantity", "Stock", "Price"];
+      const rows = table.querySelectorAll("tbody tr");
+      const tableData = [];
+      rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll("td").forEach((cell) => {
+          rowData.push(cell.textContent.trim());
+        });
+        tableData.push(rowData);
+      });
+
+      doc.autoTable({
+        head: [columns],
+        body: tableData,
+        startY: 120,
+        theme: "grid",
+        styles: {
+          overflow: "linebreak",
+          columnWidth: "wrap",
+          font: "Arial",
+          fontSize: 10,
+          halign: "center",
+          valign: "middle",
+        },
+      });
+
+      // Show action column again
+      //actionColumn.style.display = "table-cell";
+
+      // Save the PDF
+      doc.save("Machinary_report.pdf");
+    }
   };
 
   return (
