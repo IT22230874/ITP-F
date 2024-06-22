@@ -97,6 +97,7 @@ const addTableToPDF = (doc, table, actionColumn) => {
 
   return (
     <div className="dashboard">
+      <AnalysisSection/>
       <PageIntroduction
         heading={
           selectedTable === "income"

@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const ClientSchema = mongoose.Schema({
   username: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {

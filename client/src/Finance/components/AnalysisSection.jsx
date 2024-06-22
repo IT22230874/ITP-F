@@ -7,7 +7,7 @@ function AnalysisSection() {
 
   useEffect(() => {
     axios
-      .get("/api/rent/analysis/")
+      .get("/api/finance/analysis/")
       .then((response) => {
         setAnalysisData(response.data);
       })

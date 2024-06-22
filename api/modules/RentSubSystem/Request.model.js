@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const RequestSchema = mongoose.Schema({
   clientid: {
     type: String,
-    required: true,
   },
   machineid: {
     type: String,
@@ -11,7 +10,6 @@ const RequestSchema = mongoose.Schema({
   },
   clientname: {
     type: String,
-    required: true,
   },
   machinename: {
     type: String,

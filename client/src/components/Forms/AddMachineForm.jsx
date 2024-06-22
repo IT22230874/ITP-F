@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function AddMachineForm({ handleClick }) {
   const [formData, setFormData] = useState({
@@ -73,33 +74,28 @@ function AddMachineForm({ handleClick }) {
         formDataToSend.append(key, formData[key]);
       });
 
-      const res = await fetch("/api/machinary/addmachine", {
-        method: "POST",
-        body: formDataToSend, // Send FormData object instead of JSON
-      });
-
-      const data = await res.json();
+      const res = await axios.post("/api/machinary/addmachine", formDataToSend);
+      const data = res.data;
 
       if (!data.success) {
         setLoading(false);
         setError(data.message);
         setSuccessMessage(null);
-        return;
+      } else {
+        setLoading(false);
+        setError(null);
+        setSuccessMessage(data.message);
+        setFormData({
+          name: "",
+          budget: "",
+          quantity: "",
+          payee: "",
+          date: "",
+          description: "",
+          priceperday: "",
+          image: null,
+        });
       }
-
-      setLoading(false);
-      setError(null);
-      setSuccessMessage(data.message);
-      setFormData({
-        name: "",
-        budget: "",
-        quantity: "",
-        payee: "",
-        date: "",
-        description: "",
-        priceperday: "",
-        image: null,
-      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -107,7 +103,7 @@ function AddMachineForm({ handleClick }) {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
-      <div className="max-w-md w-full bg-white rounded-lg shadow p-4">
+      <div className="max-w-3xl w-full bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between border-b pb-4">
           <h3 className="text-xl font-semibold text-gray-900">
             Add New Machine
@@ -135,13 +131,25 @@ function AddMachineForm({ handleClick }) {
             <span className="sr-only">Close modal</span>
           </button>
         </div>
-        <form className="p-4" onSubmit={handleSubmit}>
+        <form
+          className="p-4 md:p-5 grid grid-cols-2 gap-4"
+          onSubmit={handleSubmit}
+        >
           {error && (
-            <p className="error text-sm mt-1 mb-2 text-red-600">{error}</p>
+            <p className="error col-span-2 text-sm mt-1 mb-2 text-red-600">
+              {error}
+            </p>
           )}
-          {successMessage && <p className="success">{successMessage}</p>}
+          {successMessage && (
+            <p className="success col-span-2">{successMessage}</p>
+          )}
           <div className="form-group">
-            <label htmlFor="name">Machine Name:</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Machine Name:
+            </label>
             <input
               type="text"
               id="name"
@@ -149,17 +157,16 @@ function AddMachineForm({ handleClick }) {
               required
               value={formData.name}
               onChange={handleChange}
-              onKeyPress={(e) => {
-                if (!/^[a-zA-Z\s]+$/.test(e.key)) {
-                  e.preventDefault();
-                  setError("Machine name must contain only letters.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="budget">Budget:</label>
+            <label
+              htmlFor="budget"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Budget:
+            </label>
             <input
               type="text"
               id="budget"
@@ -167,17 +174,16 @@ function AddMachineForm({ handleClick }) {
               required
               value={formData.budget}
               onChange={handleChange}
-              onKeyPress={(e) => {
-                if (!/^\d+$/.test(e.key)) {
-                  e.preventDefault();
-                  setError("Budget must be a number.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="quantity">Quantity:</label>
+            <label
+              htmlFor="quantity"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Quantity:
+            </label>
             <input
               type="number"
               id="quantity"
@@ -185,17 +191,16 @@ function AddMachineForm({ handleClick }) {
               value={formData.quantity}
               required
               onChange={handleChange}
-              onKeyPress={(e) => {
-                if (!/^\d+$/.test(e.key)) {
-                  e.preventDefault();
-                  setError("Quantity must be a number.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="priceperday">Price Per Day:</label>
+            <label
+              htmlFor="priceperday"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Price Per Day:
+            </label>
             <input
               type="number"
               id="priceperday"
@@ -203,17 +208,16 @@ function AddMachineForm({ handleClick }) {
               value={formData.priceperday}
               required
               onChange={handleChange}
-              onKeyPress={(e) => {
-                if (!/^\d+$/.test(e.key)) {
-                  e.preventDefault();
-                  setError("Price per day must be a number.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="payee">Payee:</label>
+            <label
+              htmlFor="payee"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Payee:
+            </label>
             <input
               type="text"
               id="payee"
@@ -221,17 +225,16 @@ function AddMachineForm({ handleClick }) {
               value={formData.payee}
               required
               onChange={handleChange}
-              onKeyPress={(e) => {
-                if (!/^[a-zA-Z\s]+$/.test(e.key)) {
-                  e.preventDefault();
-                  setError("Payee must contain only letters.");
-                }
-              }}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 p-2 w-full"
             />
           </div>
           <div className="form-group">
-            <label htmlFor="date">Date:</label>
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date:
+            </label>
             <input
               type="date"
               id="date"
@@ -239,39 +242,72 @@ function AddMachineForm({ handleClick }) {
               required
               value={formData.date}
               onChange={handleChange}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 p-2 w-full rounded-md"
+              style={{ maxWidth: "69%" }}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="description">Description:</label>
+          <div className="form-group col-span-2">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description:
+            </label>
             <textarea
-              type="text"
               id="description"
               name="description"
               required
               value={formData.description}
               onChange={handleChange}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="border border-gray-300 ml-2 p-2 w-full h-24 resize-none"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="image">Image:</label>
+          <div className="form-group col-span-2">
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium text-gray-700 mr-10"
+            >
+              Image:
+            </label>
             <input
               type="file"
               id="image"
               name="image"
               required
               onChange={handleChange}
-              className="border border-gray-300 p-2 mb-2 w-full"
+              className="hidden" // Hide the original input
             />
+            <label
+              htmlFor="image"
+              className="cursor-pointer bg-white border border-gray-300 rounded-md py-2 px-4 flex items-center justify-center w-full text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
+              Select Image
+            </label>
           </div>
-          <button
-            disabled={loading}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            type="submit"
-          >
-            {loading ? "Wait..." : "Add Machine"}
-          </button>
+
+          <div className="form-group col-span-2">
+            <button
+              disabled={loading}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+              type="submit"
+            >
+              {loading ? "Wait..." : "Add Machine"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

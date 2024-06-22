@@ -90,12 +90,12 @@ const deleteRequest = async (req, res, next) => {
 
 const addrent = async (req, res, next) => {
   try {
-    const { clientid, machineid, reqid, startdate, enddate, amount } = req.body;
+    const {machineid, reqid, startdate, enddate, amount } = req.body;
 
     // Generate rent ID
     let rentid = (await RentModel.countDocuments()) + 1;
 
-    console.log(clientid, machineid, reqid, startdate, enddate, amount);
+    console.log(machineid, reqid, startdate, enddate, amount);
 
     // Calculate number of days between start date and end date
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -113,13 +113,11 @@ const addrent = async (req, res, next) => {
     const total = amount;
     const perinstallment = total / installments;
 
-    const client = await ClientModel.findOne({_id: clientid})
-    const clientname = client.fname;
+    // const client = await ClientModel.findOne({_id: clientid})
+    // const clientname = client.fname;
 
     const newRent = new RentModel({
       rentid,
-      clientid,
-      clientname,
       startdate,
       enddate,
       installments,

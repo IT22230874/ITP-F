@@ -21,10 +21,8 @@ const displayToClient = async (req, res, next) => {
 
 const rentRequest = async (req, res, next) => {
   try {
-    const { clientid, machineid, startdate, enddate, amount } = req.body;
+    const {machineid, startdate, enddate, amount } = req.body;
     console.log(
-      clientid +
-        " --------" +
         machineid +
         " --------" +
         startdate +
@@ -35,23 +33,23 @@ const rentRequest = async (req, res, next) => {
     );
 
     // Perform validation of request data here
-    if (!clientid || !machineid || !startdate || !enddate || !amount) {
+    if (!machineid || !startdate || !enddate || !amount) {
       return res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
     }
 
-    let id = clientid;
+    // let id = clientid;
 
-    // Check if client and machine exist
-    const client = await ClientModel.findOne({ _id: id });
-    console.log(client);
-    if (!client) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Client not found" });
-    }
-    const clientname = client.fname;
+    // // Check if client and machine exist
+    // const client = await ClientModel.findOne({ _id: id });
+    // console.log(client);
+    // if (!client) {
+    //   return res
+    //     .status(404)
+    //     .json({ success: false, message: "Client not found" });
+    // }
+    // const clientname = client.fname;
 
     id = machineid;
 
@@ -72,9 +70,7 @@ const rentRequest = async (req, res, next) => {
     // Create and save the request
     const status = "requested";
     const addingRequest = new RequestModel({
-      clientid,
       machineid,
-      clientname,
       machinename,
       startdate,
       enddate,

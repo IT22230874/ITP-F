@@ -5,7 +5,6 @@ function RentForm({ requestData, onSubmit, onCancel }) {
   const handleRentSubmit = () => {
     // Prepare data to be sent in the request
     const rentData = {
-      clientid: requestData.clientid,
       machineid: requestData.machineid,
       reqid: requestData._id, // Assuming reqid is available in requestData
       startdate: requestData.startdate,
@@ -38,8 +37,6 @@ function RentForm({ requestData, onSubmit, onCancel }) {
         <h2>Rent Form</h2>
         <label>Rent ID:</label>
         <input type="text" value={requestData.reqid} disabled />
-        <label>Client ID:</label>
-        <input type="text" value={requestData.clientid} disabled />
         <label>Start Date:</label>
         <input type="text" value={requestData.startdate} disabled />
         <label>End Date:</label>

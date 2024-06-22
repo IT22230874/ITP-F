@@ -39,9 +39,8 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
       }
 
       const clientid = profileData;
-      console.log(clientid, machineid, startDate, endDate, totalCost);
+      console.log(machineid, startDate, endDate, totalCost);
       const requestData = {
-        clientid,
         machineid,
         startdate: startDate,
         enddate: endDate,

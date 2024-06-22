@@ -115,7 +115,6 @@ function RentTable({ tableRef }) {
         <thead>
           <tr>
             <th>Rent ID</th>
-            <th>Client Name</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Payment Status</th>
@@ -128,7 +127,6 @@ function RentTable({ tableRef }) {
           {filteredRentData.map((rent) => (
             <tr key={rent.rentid}>
               <td>000{rent.rentid}</td>
-              <td>{rent.clientname}</td>
               <td>{rent.startdate}</td>
               <td>{rent.enddate}</td>
               <td>{rent.status}</td>

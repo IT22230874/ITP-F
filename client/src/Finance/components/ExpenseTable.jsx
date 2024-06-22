@@ -96,7 +96,6 @@ function ExpenseTable() {
       <table>
         <thead>
           <tr>
-            <th>Expense ID</th>
             <th>Date</th>
             <th>Amount</th>
             <th>Payee</th>
@@ -107,7 +106,6 @@ function ExpenseTable() {
         <tbody>
           {filteredExpenseData.map((expense) => (
             <tr key={expense._id}>
-              <td>{expense.expenseid}</td>
               <td>{expense.date}</td>
               <td>{expense.amount}</td>
               <td>{expense.payee}</td>

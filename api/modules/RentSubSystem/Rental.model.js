@@ -7,11 +7,9 @@ const RentalSchema = mongoose.Schema({
   },
   clientid: {
     type: String,
-    required: true,
   },
   clientname: {
     type: String,
-    required: true,
   },
   startdate: {
     type: String,

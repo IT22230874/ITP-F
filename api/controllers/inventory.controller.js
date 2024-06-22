@@ -4,8 +4,16 @@ const errorHandler = require("../utils/error.js");
 
 const additem = async (req, res, next) => {
   try {
-    const { name, budget, unitofmeasure, quantity, payee, date, description } =
-      req.body;
+    const {
+      name,
+      budget,
+      unitofmeasure,
+      quantity,
+      payee,
+      date,
+      description,
+      minStock,
+    } = req.body;
 
     // Check if any required field is missing
     if (
@@ -15,7 +23,8 @@ const additem = async (req, res, next) => {
       !quantity ||
       !payee ||
       !date ||
-      !description
+      !description ||
+      minStock === undefined
     ) {
       return res
         .status(400)
@@ -33,6 +42,7 @@ const additem = async (req, res, next) => {
       unitofmeasure,
       itemid,
       stock,
+      minStock,
     });
 
     await newItem.save();
@@ -45,7 +55,6 @@ const additem = async (req, res, next) => {
     const department = "inventory";
 
     const newExpense = new ExpenseModel({
-      expenseid,
       amount: budget,
       date,
       payee,
@@ -103,11 +112,12 @@ const getAllItemNames = async (req, res, next) => {
     next(error);
   }
 };
+
 const deleteItem = async (req, res, next) => {
   try {
     const { id } = req.params;
     await InventoryModel.findByIdAndDelete(id);
-    res.json({ message: "item deleted successfully", id });
+    res.json({ message: "Item deleted successfully", id });
   } catch (error) {
     next(error);
   }
@@ -125,6 +135,7 @@ const updateItem = async (req, res, next) => {
       date,
       description,
       stock,
+      minStock,
     } = req.body;
 
     // Check if any required field is missing
@@ -136,7 +147,8 @@ const updateItem = async (req, res, next) => {
       !payee ||
       !date ||
       !description ||
-      !stock
+      !stock ||
+      minStock === undefined
     ) {
       return res
         .status(400)
@@ -152,6 +164,7 @@ const updateItem = async (req, res, next) => {
           quantity,
           unitofmeasure,
           stock,
+          minStock, // Include minStock here
         },
       },
       { new: true }
