@@ -13,7 +13,7 @@ const {
   getAttendance,
   attendanceAnalysis,
   getAttendanceSummary,
-  displayAttendence,
+  displayAttendance,
 } = require("../controllers/Employee/employee.controller.js");
 
 const router = express.Router();
@@ -35,7 +35,7 @@ router.delete("/group/member/:id", removeMemberFromGroup);
 router.post("/attendance/qr", attendanceQr);
 router.post("/attendance", getAttendance);
 router.get("/attendance/analysis/:id", attendanceAnalysis);
-router.get("/attendance/details", displayAttendence);
+router.get("/attendance/details", displayAttendance);
 router.get("/attendance/summary", async (req, res, next) => {
   try {
     const summary = await getAttendanceSummary();

@@ -8,7 +8,7 @@ const machinaryRouter = require("./routes/machinary.route.js");
 const rentRouter = require("./routes/rent.route.js");
 const projectRouter = require("./routes/project.route.js");
 const tenderRouter = require("./routes/tender.route.js");
-//const employeeRouter = require("./routes/employee.route.js");
+const employeeRouter = require("./routes/employee.route.js");
 const financeRouter = require("./routes/finance.route.js");
 
 dotenv.config();
@@ -36,7 +36,7 @@ app.use("/api/machinary", machinaryRouter);
 app.use("/api/rent", rentRouter);
 app.use("/api/project", projectRouter);
 app.use("/api/tender", tenderRouter);
-//app.use("/api/employee", employeeRouter);
+app.use("/api/employee", employeeRouter);
 app.use("/api/finance", financeRouter);
 app.use("/api/project", projectRouter);
 
