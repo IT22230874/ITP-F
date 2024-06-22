@@ -1,4 +1,6 @@
-import * as React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import BidForm from "./BidForm";
 
 function TenderCard({
   heading,
@@ -8,6 +10,16 @@ function TenderCard({
   location,
   description,
 }) {
+  const [showBidForm, setShowBidForm] = useState(false);
+
+  const handleBidClick = () => {
+    setShowBidForm(true);
+  };
+
+  const handleCloseBidForm = () => {
+    setShowBidForm(false);
+  };
+
   return (
     <div className="flex flex-col px-4 py-3 text-xl rounded-xl bg-white  shadow-md  mb-4">
       <div className="text-3xl font-bold text-black max-md:max-w-full">
@@ -17,24 +29,35 @@ function TenderCard({
         {description}
       </div>
       <div className="flex gap-1.5 justify-between px-0.5 mt-4 text-lg font-semibold max-md:flex-wrap max-md:max-w-full">
-        <div className="text-pink-400">
-          <span className="text-pink-400 ">Published on:</span> {publishdate}
+        <div className="text-green-500">
+          <span className="text-green-500 ">Published on:</span> {publishdate}
         </div>
-        <div className="text-orange-600">
-          <span className="text-orange-600 ">Closing on:</span> {closedate}
+        <div className="text-red-600">
+          <span className="text-red-600 ">Closing on:</span> {closedate}
         </div>
         <div className="text-neutral-800">
           <span>Location:</span> {location}
         </div>
       </div>
       <div className="flex gap-3 mt-4 font-semibold text-white max-md:flex-wrap">
-        <button className="justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg max-md:px-5 max-md:max-w-full">
+        {/*<button className="justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg max-md:px-5 max-md:max-w-full"
+        onClick={handleBidClick}>
           Download
-        </button>
-        <button className="justify-center px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg max-md:px-5">
+        </button>*/}
+        <button
+          className="justify-center px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg max-md:px-5"
+          onClick={handleBidClick}
+        >
           Submit Bid
         </button>
       </div>
+      {showBidForm && (
+        <BidForm
+          tenderId={tenderid}
+          title={heading}
+          onClose={handleCloseBidForm}
+        />
+      )}
     </div>
   );
 }

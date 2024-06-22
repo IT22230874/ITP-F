@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 const authRouter = require("./routes/auth.route.js");
 const inventoryRouter = require("./routes/inventory.route.js");
@@ -10,12 +11,15 @@ const projectRouter = require("./routes/project.route.js");
 const tenderRouter = require("./routes/tender.route.js");
 const employeeRouter = require("./routes/employee.route.js");
 const financeRouter = require("./routes/finance.route.js");
+const sendEmail = require("./routes/mailSender.js");
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(express.static("/public"));
+// Enable all CORS requests
+app.use(cors());
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on ${process.env.PORT}`);
@@ -30,6 +34,7 @@ mongoose
     console.error(error);
   });
 
+app.post("/api/sendemail", sendEmail);
 app.use("/api/auth", authRouter);
 app.use("/api/inventory", inventoryRouter);
 app.use("/api/machinary", machinaryRouter);
