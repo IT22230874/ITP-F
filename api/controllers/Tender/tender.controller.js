@@ -53,6 +53,26 @@ const publishtenders = async (req, res, next) => {
   }
 };
 
+const getTenderById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const tender = await TenderModel.findById(id);
+
+    if (!tender) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Tender not found" });
+    }
+
+    return res.status(200).json({ success: true, data: tender });
+  } catch (error) {
+    console.error("Error fetching tender:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 const displayePublishedTenders = async (req, res, next) => {
   const tenders = await TenderModel.find();
 
@@ -339,4 +359,5 @@ module.exports = {
   deletePublishedTender,
   deleteBid,
   getpdf,
+  getTenderById,
 };
