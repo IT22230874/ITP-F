@@ -129,12 +129,12 @@ const updateItem = async (req, res, next) => {
     const { id } = req.params;
     const {
       name,
-      budget,
+      //budget,
       unitofmeasure,
       quantity,
-      payee,
-      date,
-      description,
+      //payee,
+      //date,
+      //description,
       stock,
       minStock,
     } = req.body;
@@ -142,12 +142,12 @@ const updateItem = async (req, res, next) => {
     // Check if any required field is missing
     if (
       !name ||
-      !budget ||
+      //!budget ||
       !unitofmeasure ||
       !quantity ||
-      !payee ||
-      !date ||
-      !description ||
+      // !payee ||
+      //!date ||
+      //!description ||
       !stock ||
       minStock === undefined
     ) {
@@ -165,32 +165,33 @@ const updateItem = async (req, res, next) => {
           quantity,
           unitofmeasure,
           stock,
-          minStock, // Include minStock here
+          minStock,
         },
       },
       { new: true }
     );
 
-    // Create a new expense record
-    let latestExpense = await ExpenseModel.findOne()
-      .sort({ expenseid: -1 })
-      .limit(1);
-    let expenseid = latestExpense ? latestExpense.expenseid + 1 : 1;
+    // // Create a new expense record
+    // let latestExpense = await ExpenseModel.findOne()
+    //   .sort({ expenseid: -1 })
+    //   .limit(1);
+    // let expenseid = latestExpense ? latestExpense.expenseid + 1 : 1;
 
-    const department = "inventory";
+    // const department = "inventory";
 
-    const newExpense = new ExpenseModel({
-      expenseid,
-      amount: budget,
-      date,
-      payee,
-      department,
-      description,
-    });
+    // const newExpense = new ExpenseModel({
+    //   expenseid,
+    //   amount: budget,
+    //   date,
+    //   payee,
+    //   department,
+    //   description,
+    // });
 
-    await newExpense.save();
+    // await newExpense.save();
 
     res.json({
+      success: true,
       message: "Item updated successfully",
       data: updatedItem,
     });
