@@ -132,9 +132,7 @@ function InventoryTable() {
       );
 
       const data = res.data;
-      console.log("here i  am", res.success);
-
-      if (true) {
+      if (data.success) {
         // Update items state with the updated item
         const updatedItems = items.map((item) =>
           item._id === selectedMaterial._id ? data.data : item
@@ -301,11 +299,11 @@ function InventoryTable() {
               </button>
             </div>
             <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
-              {error && (
+              {/* {error && (
                 <p className="error col-span-2 text-sm mt-1 mb-2 text-red-600">
                   {error}
                 </p>
-              )}
+              )} */}
               {selectedMaterial && (
                 <>
                   <div className="form-group ">

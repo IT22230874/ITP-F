@@ -1,13 +1,65 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <style>
+      /* Basic styling for email readability */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        color: #333333;
+        display: flex;
+        align-items: center;
+      }
+      h2 img {
+        width: 40px;
+        height: auto;
+        margin-right: 10px;
+      }
+      .footer {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #666666;
+        text-align: center;
+      }
+    </style>
+  </head>
   <body>
-    <h2>Stock Alert: <%= itemName %></h2>
-    <p>Hello,</p>
-    <p>
-      This is an alert that the stock of <%= itemName %> has reached or fallen
-      below the minimum stock level.
+    <div class="container">
+      <h2>Stock Alert: <%= itemName %></h2>
+      <hr />
+      <p>Hello,</p>
+      <p>
+        This is an alert that the stock of <%= itemName %> has reached or fallen
+        below the minimum stock level.
+      </p>
+      <p><b>Current Quantity:</b> <%= currentQuantity %></p>
+      <p><b>Minimum Stock Level:</b> <%= minStockLevel %></p>
+    </div>
+    <!-- <div class="logo">
+      <img src="/client/public/vite.svg" alt="Company Logo" />
+    </div> -->
+    <div class="footer">
+      <p style="font-size: 12px; color: #999999">
+        This is an automated message. Please do not reply to this email.
+      </p>
+      <p>Regards,</p>
+    </div>
+    <p style="font-size: 20px; font-weight: 700; text-align: center">
+      <span style="color: #0056b3">Shan</span>
+      <span style="color: #181818">Construction</span>
     </p>
-    <p>Current Quantity: <%= currentQuantity %></p>
-    <p>Minimum Stock Level: <%= minStockLevel %></p>
-    <p>Regards,<br />Your Company</p>
   </body>
 </html>

@@ -155,6 +155,27 @@ const updateItem = async (req, res, next) => {
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
+    // Fetch the existing item before update
+    const existingItem = await InventoryModel.findById(id);
+
+    // Compare the updated fields to check if any changes were made
+    const isUpdated =
+      name !== existingItem.name ||
+      unitofmeasure !== existingItem.unitofmeasure ||
+      quantity !== existingItem.quantity ||
+      stock !== existingItem.stock ||
+      minStock !== existingItem.minStock;
+
+    // If no changes were made, return a response indicating no update was performed
+    if (!isUpdated) {
+      return res
+        .status(200)
+        .json({
+          success: false,
+          message: "No changes detected, item not updated",
+          data: existingItem,
+        });
+    }
 
     // Find the item by ID and update its fields
     const updatedItem = await InventoryModel.findByIdAndUpdate(
