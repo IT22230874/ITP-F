@@ -136,12 +136,12 @@ const updateItem = async (req, res, next) => {
     const { id } = req.params;
     const {
       name,
-      budget,
+      //budget,
       unitofmeasure,
       quantity,
-      payee,
-      date,
-      description,
+      //payee,
+      //date,
+      //description,
       stock,
       minStock,
     } = req.body;
@@ -149,18 +149,39 @@ const updateItem = async (req, res, next) => {
     // Check if any required field is missing
     if (
       !name ||
-      !budget ||
+      //!budget ||
       !unitofmeasure ||
       !quantity ||
-      !payee ||
-      !date ||
-      !description ||
+      // !payee ||
+      //!date ||
+      //!description ||
       !stock ||
       minStock === undefined
     ) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
+    }
+    // Fetch the existing item before update
+    const existingItem = await InventoryModel.findById(id);
+
+    // Compare the updated fields to check if any changes were made
+    const isUpdated =
+      name !== existingItem.name ||
+      unitofmeasure !== existingItem.unitofmeasure ||
+      quantity !== existingItem.quantity ||
+      stock !== existingItem.stock ||
+      minStock !== existingItem.minStock;
+
+    // If no changes were made, return a response indicating no update was performed
+    if (!isUpdated) {
+      return res
+        .status(200)
+        .json({
+          success: false,
+          message: "No changes detected, item not updated",
+          data: existingItem,
+        });
     }
 
     // Find the item by ID and update its fields
@@ -172,7 +193,7 @@ const updateItem = async (req, res, next) => {
           quantity,
           unitofmeasure,
           stock,
-          minStock, // Include minStock here
+          minStock,
         },
       },
       { new: true }
@@ -183,8 +204,13 @@ const updateItem = async (req, res, next) => {
     //   .sort({ expenseid: -1 })
     //   .limit(1);
     // let expenseid = latestExpense ? latestExpense.expenseid + 1 : 1;
+    // // Create a new expense record
+    // let latestExpense = await ExpenseModel.findOne()
+    //   .sort({ expenseid: -1 })
+    //   .limit(1);
+    // let expenseid = latestExpense ? latestExpense.expenseid + 1 : 1;
 
-    const department = "inventory";
+    // const department = "inventory";
 
     const newExpense = new ExpenseModel({
       amount: budget,
@@ -194,9 +220,10 @@ const updateItem = async (req, res, next) => {
       description,
     });
 
-    await newExpense.save();
+    // await newExpense.save();
 
     res.json({
+      success: true,
       message: "Item updated successfully",
       data: updatedItem,
     });

@@ -97,6 +97,25 @@ function InventoryTable() {
     e.preventDefault();
     try {
       setLoading(true);
+
+      let stockChange;
+
+      if (selectedMaterial.quantity >= selectedMaterial.minStock) {
+        stockChange = "available";
+      } else if (
+        selectedMaterial.quantity < selectedMaterial.minStock &&
+        selectedMaterial.quantity > 0
+      ) {
+        stockChange = "low stock";
+      } else {
+        stockChange = "unavailable";
+      }
+
+      console.log(
+        "minStock > quantity",
+        selectedMaterial.minStock > selectedMaterial.quantity
+      );
+
       const res = await axios.patch(
         `/api/inventory/updateitem/${selectedMaterial._id}`,
         {
@@ -107,25 +126,49 @@ function InventoryTable() {
           payee: selectedMaterial.payee,
           date: selectedMaterial.date,
           description: selectedMaterial.description,
-          stock: selectedMaterial.stock,
+          stock: stockChange,
           minStock: selectedMaterial.minStock,
         }
       );
-      const data = res.data;
 
-      if (data.data) {
-        // Update UI state immediately with the updated data
+      const data = res.data;
+      if (data.success) {
+        // Update items state with the updated item
         const updatedItems = items.map((item) =>
           item._id === selectedMaterial._id ? data.data : item
         );
         setItems(updatedItems);
-        setShowForm(false);
-        return;
+
+        // Check if quantity is below minStock and send email
+        if (selectedMaterial.quantity < selectedMaterial.minStock) {
+          console.log("Sending email...");
+          try {
+            const emailRes = await axios.post("/api/sendemail", {
+              recipientEmail: "tehannim@gmail.com", // recipient email
+              itemName: selectedMaterial.name,
+              currentQuantity: selectedMaterial.quantity,
+              minStockLevel: selectedMaterial.minStock,
+            });
+            console.log("Email sent successfully:", emailRes.data);
+          } catch (error) {
+            console.error("Error sending email:", error);
+            // Handle email sending error if necessary
+          }
+        } else {
+          console.log(
+            "Quantity is not below minStock:",
+            selectedMaterial.quantity,
+            selectedMaterial.minStock
+          );
+        }
+
+        setShowForm(false); // Close the form modal after successful update
+      } else {
+        setError("Failed to update item. Please try again.");
       }
-      setError(data.message);
-      setShowForm(false);
     } catch (error) {
       console.error("Error updating item:", error);
+      setError("Error updating item. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -140,15 +183,15 @@ function InventoryTable() {
       case "available":
         return "rgb(74, 223, 74)";
       case "unavailable":
-        return "rgb(223, 173, 74)";
-      case "low stock":
         return "rgb(211, 88, 88)";
+      case "low stock":
+        return "rgb(223, 173, 74)";
       case "service":
         return "rgb(229, 212, 101)";
       case "rented":
         return "rgb(233, 140, 19)";
       default:
-        return "transparent"; // Default color if stock value doesn't match any condition
+        return "transparent";
     }
   };
 
@@ -256,11 +299,11 @@ function InventoryTable() {
               </button>
             </div>
             <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
-              {error && (
+              {/* {error && (
                 <p className="error col-span-2 text-sm mt-1 mb-2 text-red-600">
                   {error}
                 </p>
-              )}
+              )} */}
               {selectedMaterial && (
                 <>
                   <div className="form-group ">

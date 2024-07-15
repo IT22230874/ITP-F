@@ -37,8 +37,17 @@ const bidSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  tender: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Tender",
+    required: true,
+  },
+  bidAmount: {
+    type: Number,
+    required: true,
+  },
 });
 
-const BidModel = mongoose.model("bid", bidSchema);
+const BidModel = mongoose.model("Bid", bidSchema);
 
 module.exports = BidModel;

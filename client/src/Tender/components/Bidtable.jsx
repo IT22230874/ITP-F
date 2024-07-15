@@ -22,10 +22,27 @@ function Bidtable() {
   const fetchData = async () => {
     try {
       const response = await axios.get("/api/tender/displaybid");
-      setRentData(response.data);
-      setFilteredRentData(response.data);
+      const bids = response.data;
+      // Fetch tender details for each bid
+      const bidsWithData = await Promise.all(
+        bids.map(async (bid) => {
+          try {
+            const tenderResponse = await axios.get(
+              `/api/tender/getTender/${bid.tender}`
+            );
+            const tender = tenderResponse.data.data;
+            console.log(tender.title);
+            return { ...bid, tenderTitle: tender.title };
+          } catch (error) {
+            console.error(`Error fetching tender ${bid.tender}:`, error);
+            return { ...bid, tenderTitle: "Unknown" }; // Handle error scenario
+          }
+        })
+      );
+      setRentData(bidsWithData);
+      setFilteredRentData(bidsWithData);
     } catch (error) {
-      console.error("Error fetching rent data:", error);
+      console.error("Error fetching bid data:", error);
     }
   };
 
@@ -75,7 +92,9 @@ function Bidtable() {
       <h2>Bid Table</h2>
 
       <div className="rentFil filter">
-        <span><FiFilter /></span>
+        <span>
+          <FiFilter />
+        </span>
         <span>Filter By</span>
         <select
           value={filterStatus}
@@ -101,7 +120,7 @@ function Bidtable() {
         <thead>
           <tr>
             <th>Bid ID</th>
-            <th>name</th>
+            <th>Tender</th>
             <th>Organization Name</th>
             <th>Contact</th>
             <th> Email</th>
@@ -111,13 +130,16 @@ function Bidtable() {
         <tbody>
           {filteredRentData.map((tender) => (
             <tr key={tender._id}>
-              <td>000{tender.bidid}</td>
-              <td>{tender.name}</td>
+              <td>{tender.bidid}</td>
+              <td>{tender.tenderTitle}</td>
               <td>{tender.organizationname}</td>
               <td>{tender.tel}</td>
               <td>{tender.email}</td>
               <td>
-                <button className="delete" onClick={() => handleDelete(tender._id)}>
+                <button
+                  className="delete"
+                  onClick={() => handleDelete(tender._id)}
+                >
                   <FaTrashAlt />
                 </button>
                 <button className="viewbtn" onClick={() => handleView(tender)}>
