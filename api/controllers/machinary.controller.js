@@ -302,6 +302,25 @@ const getpdf = async (req, res, next) => {
   }
 };
 
+// Define the controller method to get machine name by ID
+const getMachine = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // Find the machine by ID in the database
+    const machine = await MachinaryModel.findById(id);
+
+    // If machine with given ID is found, return its name
+    if (machine) {
+      res.status(200).json({ name: machine.name });
+    } else {
+      res.status(404).json({ message: "Machine not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addmachinary,
   displayMachineDetails,
@@ -309,4 +328,5 @@ module.exports = {
   deleteMachine,
   updateMachine,
   getpdf,
+  getMachine,
 };

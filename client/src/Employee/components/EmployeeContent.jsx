@@ -9,6 +9,10 @@ import AddEmployeeForm from "./AddEmployee";
 import AddGroup from "./AddGroup"; // Import AddGroup component
 import { QrReader } from "react-qr-reader";
 import GroupTable from "./GroupTable";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import logo from "../../assets/logo.png";
+
 
 function EmployeeContent() {
   const [selectedTable, setSelectedTable] = useState("employees");
@@ -58,36 +62,11 @@ function EmployeeContent() {
         <button
           type="button"
           className="button"
-          onClick={() => {getpdf()}}
-        >
-          Report
-        </button>
-        <button
-          type="button"
-          className="button"
           onClick={() => handleTableChange("attendance")}
         >
           Attendance
         </button>
-        <button type="button" className="button" onClick={() => handleScan()}>
-          ScanQr
-        </button>
 
-        <button type="button" className="button" onClick={toggleAddGroup}>
-          {" "}
-          {/* Add onClick handler for Add Group button */}
-          Add Group
-        </button>
-
-        <button
-          type="button"
-          className="button"
-          onClick={() => handleTableChange("group")}
-        >
-          {" "}
-          {/* Add onClick handler for Add Group button */}
-          Groups{" "}
-        </button>
         {/*<QrReader
           onScan={handleScan}
           onResult={(result, error) => {

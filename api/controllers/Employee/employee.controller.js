@@ -2,6 +2,7 @@ const AttendenceModel = require("../../modules/Employee/attendence.model");
 const AttendanceModel = require("../../modules/Employee/attendance.model");
 const EmployeeModel = require("../../modules/Employee/employee.model");
 const GroupModel = require("../../modules/Employee/projectgroups.model");
+const ProjectModel = require("../../modules/Project_Management/project.model");
 const qrcode = require("qrcode");
 // const displayGroups = async (req, res, next) => {
 //     try {
@@ -12,10 +13,27 @@ const qrcode = require("qrcode");
 //       return res.status(500).json({ message: "Internal server error" });
 //     }
 //   };
+
+// Function to generate Employee ID
+const generateEmployeeID = async () => {
+  try {
+    let latestEmpId = 1;
+    const latestEmployee = await EmployeeModel.findOne().sort({ emp_id: -1 });
+    if (latestEmployee) {
+      latestEmpId = parseInt(latestEmployee.emp_id.slice(1)) + 1;
+    }
+    return `E${String(latestEmpId).padStart(3, '0')}`;
+  } catch (error) {
+    console.error("Error generating employee ID:", error);
+    throw error; // Throw error to handle it in calling function or middleware
+  }
+};
+
+
+
 const addEmployee = async (req, res, next) => {
   try {
     const {
-      emp_id,
       fname,
       lname,
       age,
@@ -23,11 +41,14 @@ const addEmployee = async (req, res, next) => {
       email,
       position,
       nic,
-      dob,
+      // dob,
       address,
       joindate,
-      salary,
+      salary
     } = req.body;
+
+    const emp_id = await generateEmployeeID(); // Generate new employee ID
+
     const gid = "null";
 
     const newEmployee = new EmployeeModel({
@@ -39,13 +60,15 @@ const addEmployee = async (req, res, next) => {
       email,
       position,
       nic,
-      dob,
+      // dob,
       address,
       joindate,
       gid,
       salary,
     });
+
     await newEmployee.save();
+
     return res.json({
       message: "Employee added successfully",
       data: newEmployee,
@@ -55,6 +78,7 @@ const addEmployee = async (req, res, next) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 const editEmployee = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -123,29 +147,49 @@ const displayGroups = async (req, res, next) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+// 
+
 const createGroup = async (req, res, next) => {
+  const { name, description } = req.body;
+
   try {
-    const { name } = req.body;
+    // Check if the group name already exists
+    const existingGroup = await GroupModel.findOne({ name });
+    if (existingGroup) {
+      return res.status(400).json({ error: 'Group name already exists. Please choose a different name.' });
+    }
+
+    // Determine the latest gid for the new group
     let latestGid = 1;
     const latestGroup = await GroupModel.findOne().sort({ gid: -1 });
     if (latestGroup) {
       latestGid = latestGroup.gid + 1;
     }
+
+    // Create a new group
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split("T")[0]; // Extract yyyy-mm-dd
     const availability = false;
     const newGroup = new GroupModel({
       name,
+      description,
       date: formattedDate,
       availability,
       gid: latestGid,
     });
+
     await newGroup.save();
-    return res.json({ message: "Group created successfully", data: newGroup });
+
+    return res.status(201).json({ message: 'Group created successfully', data: newGroup });
   } catch (error) {
-    console.error("Error creating group:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error('Error creating group:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
+};
+
+module.exports = {
+  createGroup,
+  // other controller functions
 };
 const deleteGroup = async (req, res, next) => {
   try {
@@ -338,6 +382,42 @@ const displayAttendance = async (req, res, next) => {
   return res.json({ data: ob });
 };
 
+const addProject = async (req, res, next) => {
+  try {
+    const {
+      pid,
+      name,
+      location,
+      startdate,
+      enddate,
+      email,
+      budget,
+      clientname,
+      description,
+    } = req.body;
+
+    const newProject = new ProjectModel({
+      pid,
+      name,
+      location,
+      startdate,
+      enddate,
+      email,
+      budget,
+      clientname,
+      description,
+    });
+    await newProject.save();
+    return res.json({
+      message: "Project added successfully",
+      data: newProject,
+    });
+  } catch (error) {
+    console.error("Error adding project:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   addEmployee,
   editEmployee,
@@ -354,4 +434,6 @@ module.exports = {
   getAttendanceSummary,
   displayAttendence,
   displayAttendance,
+  addProject,
+  generateEmployeeID,
 };

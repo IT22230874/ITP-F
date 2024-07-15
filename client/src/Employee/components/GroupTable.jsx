@@ -95,7 +95,7 @@ function GroupTable() {
   return (
     <div>
       <div class="mt-10 font-bold">
-        <h2>Groups</h2>
+        <h2>Group Table</h2>
       </div>
 
       <table>
@@ -108,10 +108,11 @@ function GroupTable() {
         </thead>
         <tbody>
           {groupsData.map((group) => (
-            <tr key={group._id}>
+            <tr key={group._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td>{group.gid}</td>
               <td>{group.name}</td>
               <td>{group.date}</td>
+             
             </tr>
           ))}
         </tbody>

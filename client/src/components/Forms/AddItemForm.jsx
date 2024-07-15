@@ -24,6 +24,8 @@ function AddItemForm({ handleClick }) {
       const res = await axios.post("/api/inventory/additem", formData);
       const data = res.data;
 
+      console.log("i am hwere",data);
+
       if (!data.success) {
         setError(data.message);
         setSuccessMessage(null);

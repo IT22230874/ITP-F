@@ -33,34 +33,37 @@ function AddExpense({closeForm}) {
 
   return (
 <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75">
-  <div className="bg-white p-8 rounded-md max-w-3xl w-full">
-    <h2 className="text-2xl font-semibold mb-6">Add Expense</h2>
-    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+  <div className="bg-white p-8 rounded shadow-md">
+    <div style={{alignItems: "center",justifyContent: "space-between", width: "100%"}}>
+    <h2 className="text-2xl font-bold mb-10">Add Expense</h2>
+    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
       <div>
-        <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date:</label>
-        <input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} required className="mt-1 p-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+        <label htmlFor="date" >Date:</label>
+        <input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} required className="w-full border rounded py-2 px-3" />
       </div>
       <div>
-        <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount:</label>
-        <input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required className="mt-1 p-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+        <label htmlFor="amount" >Amount:</label>
+        <input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required className="w-full border rounded py-2 px-3" />
       </div>
       <div>
-        <label htmlFor="payee" className="block text-sm font-medium text-gray-700">Payee:</label>
-        <input id="payee" type="text" value={payee} onChange={(e) => setPayee(e.target.value)} required className="mt-1 p-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+        <label htmlFor="payee" >Payee:</label>
+        <input id="payee" type="text" value={payee} onChange={(e) => setPayee(e.target.value)} required className="w-full border rounded py-2 px-3" />
       </div>
       <div>
-        <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department:</label>
-        <input id="department" type="text" value={department} onChange={(e) => setDepartment(e.target.value)} required className="mt-1 p-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+        <label htmlFor="department" >Department:</label>
+        <input id="department" type="text" value={department} onChange={(e) => setDepartment(e.target.value)} required className="w-full border rounded py-2 px-3" />
       </div>
       <div className="col-span-2">
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description:</label>
-        <input id="description" type="text" value={description} onChange={(e) => setDescription(e.target.value)} required className="mt-1 p-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+        <label htmlFor="description" >Description:</label>
+        <textarea id="description" type="text" value={description} onChange={(e) => setDescription(e.target.value)} required className="w-full border rounded py-2 px-3 " />
       </div>
-      <div className="col-span-2 flex justify-end">
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Expense</button>
-        <button type="button" onClick={()=>{closeForm()}} className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 mr-2">Close</button>
+      
+      <div className="col-span-2 flex gap-4">
+        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Add Expense</button>
+        <button type="button" onClick={()=>{closeForm()}} className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Close</button>
       </div>
     </form>
+    </div>
   </div>
 </div>
 

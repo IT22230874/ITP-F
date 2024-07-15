@@ -31,7 +31,7 @@ const {
 
 const router = express.Router();
 /*662f1f6601eecf7792af3a6d*/
-router.post('/addproject', addProject);
+//router.post('/addproject', addProject);
 router.get('/projects', getAllProjects);
 router.get('/analysis', analysis);
 router.delete('/deleteproject/:id', deleteProject);

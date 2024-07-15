@@ -53,7 +53,7 @@ const addTableToPDF = (doc, table, actionColumn) => {
   const columns = [
     "Date",
     "Amount",
-    "Source",
+    "Payee(as source)",
     "Department",
     "Description",
   ];
@@ -142,6 +142,9 @@ const addTableToPDF = (doc, table, actionColumn) => {
         </button>
         <button type="button" className="button" onClick={getpdf}>
           Get Report
+        </button>
+        <button type="button" className="button" onClick={getpdf}>
+          Payments
         </button>
       </div>
 

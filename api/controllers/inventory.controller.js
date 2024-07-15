@@ -4,6 +4,8 @@ const errorHandler = require("../utils/error.js");
 
 const additem = async (req, res, next) => {
   try {
+    console.log("Starting additem function");
+
     const {
       name,
       budget,
@@ -26,6 +28,7 @@ const additem = async (req, res, next) => {
       !description ||
       minStock === undefined
     ) {
+      console.log("Missing required fields");
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
@@ -33,6 +36,7 @@ const additem = async (req, res, next) => {
 
     let itemid = await InventoryModel.findOne().sort({ itemid: -1 }).limit(1);
     itemid = itemid ? itemid.itemid + 1 : 1;
+    console.log("Generated itemid:", itemid);
 
     const stock = "available";
 
@@ -46,11 +50,7 @@ const additem = async (req, res, next) => {
     });
 
     await newItem.save();
-
-    let expenseid = await ExpenseModel.findOne()
-      .sort({ expenseid: -1 })
-      .limit(1);
-    expenseid = expenseid ? expenseid.expenseid + 1 : 1;
+    console.log("Saved new item:", newItem);
 
     const department = "inventory";
 
@@ -63,14 +63,22 @@ const additem = async (req, res, next) => {
     });
 
     await newExpense.save();
+    console.log("Saved new expense:", newExpense);
 
     res
       .status(201)
-      .json({ success: true, message: "Item was successfully added" });
+      .json({ success: true, message: "Item was successfully added", Data: newExpense });
+
+    console.log("i am backend ass");
   } catch (error) {
+    console.error("Error in additem function:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ success: false, message: "Internal Server Error", error: error.message });
+    }
     next(error);
   }
 };
+
 
 const displayItemDetails = async (req, res, next) => {
   const { name, stock } = req.body;
@@ -170,16 +178,15 @@ const updateItem = async (req, res, next) => {
       { new: true }
     );
 
-    // Create a new expense record
-    let latestExpense = await ExpenseModel.findOne()
-      .sort({ expenseid: -1 })
-      .limit(1);
-    let expenseid = latestExpense ? latestExpense.expenseid + 1 : 1;
+    // // Create a new expense record
+    // let latestExpense = await ExpenseModel.findOne()
+    //   .sort({ expenseid: -1 })
+    //   .limit(1);
+    // let expenseid = latestExpense ? latestExpense.expenseid + 1 : 1;
 
     const department = "inventory";
 
     const newExpense = new ExpenseModel({
-      expenseid,
       amount: budget,
       date,
       payee,

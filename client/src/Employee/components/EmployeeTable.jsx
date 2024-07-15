@@ -3,6 +3,10 @@ import axios from "axios";
 import { FiRefreshCcw } from "react-icons/fi";
 import { FaTrashAlt, FaEdit, FaUserPlus, FaUserMinus, FaQrcode } from "react-icons/fa";
 import EmployeeDetails from "./EmployeeItem";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import logo from "../../assets/logo.png";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 function EmployeeTable() {
   const [employeeData, setEmployeeData] = useState([]);
@@ -136,6 +140,94 @@ function EmployeeTable() {
       });
   };
 
+  const getpdf = () => {
+    const table = document.querySelector("table");
+    const doc = new jsPDF("p", "pt", "a4");
+
+    const actionColumn = table.querySelector(".actions");
+    if (actionColumn) actionColumn.style.display = "none";
+
+    // Add letterhead
+    const img = new Image();
+    img.src = logo; // Assuming 'logo' is imported as a letterhead image
+
+    img.onload = () => {
+        // Adjust the position and size of the letterhead to span the width of the page
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const letterheadHeight = 130; // Adjust this based on your letterhead image aspect ratio
+        doc.addImage(img, "PNG", 0, 0, pageWidth, letterheadHeight);
+
+        // Add some top margin below the letterhead
+        const startY = letterheadHeight + 20;
+
+        // Add report title
+        doc.setFont("Arial", "bold");
+        doc.setFontSize(18);
+        doc.text("Attendance Report", pageWidth / 2, startY, { align: "center" });
+
+        // Add table after the letterhead and title
+        addTableToPDF(doc, table, startY + 30); // Adjust starting Y position for the table
+
+        // Save PDF
+        if (actionColumn) actionColumn.style.display = "table-cell";
+        doc.save("employee_report.pdf");
+    };
+};
+
+const addTableToPDF = (doc, table, startY) => {
+    const columns = [
+        "Employee ID",
+        "First Name",
+        "Last Name",
+        "Age",
+        "Position",
+        "Email",
+        "Group Id"
+    ];
+    const rows = table.querySelectorAll("tbody tr");
+    const tableData = [];
+
+    rows.forEach((row) => {
+        const rowData = [];
+        row.querySelectorAll("td").forEach((cell, index) => {
+            if (index === 0) {
+                rowData.push("000" + cell.textContent.trim());
+            } else if (index >= 1 && index <= 6) {
+                rowData.push(cell.textContent.trim());
+            }
+        });
+        tableData.push(rowData);
+    });
+
+    doc.autoTable({
+        head: [columns],
+        body: tableData,
+        startY: startY, // Use the provided startY position to place the table
+        theme: "striped",
+        styles: {
+            overflow: "linebreak",
+            columnWidth: "wrap",
+            font: "Arial",
+            fontSize: 10,
+            halign: "center",
+            valign: "middle"
+        },
+        headStyles: {
+            fillColor: [22, 160, 133], // Custom header color
+            textColor: [255, 255, 255], // Custom header text color
+            fontSize: 12,
+            fontStyle: "bold"
+        },
+        bodyStyles: {
+            fillColor: [245, 245, 245] // Custom body color for better readability
+        },
+        alternateRowStyles: {
+            fillColor: [255, 255, 255] // Alternate row color
+        }
+    });
+};
+
+
   return (
     <div>
       <div class="mt-10 font-bold">
@@ -143,14 +235,19 @@ function EmployeeTable() {
         </div>
       
 
-      <div className="filter">
-        <span>Filter By Position:</span>
-        <input
-          type="text"
-          value={filterPosition}
-          placeholder="Enter position"
-          onChange={(e) => setFilterPosition(e.target.value)}
-        />
+      <div className="filter border border-gray-300 rounded-lg bg-white  p-4">
+        <div className="flex h-15">
+          <span>Filter By Position:</span>
+          <input
+            type="text"
+            value={filterPosition}
+            placeholder="Enter position"
+            onChange={(e) => setFilterPosition(e.target.value)}
+            
+          />
+        </div>
+        
+        <div className="flex h-15">
         <span>Filter By Group ID:</span>
         <input
           type="text"
@@ -158,50 +255,59 @@ function EmployeeTable() {
           placeholder="Enter Group ID"
           onChange={(e) => setFilterGid(e.target.value === "" ? null : parseInt(e.target.value))}
         />
-        <button type="button" onClick={handleResetFilter}>
+        </div>
+         
+        <button type="button" onClick={handleResetFilter} className="ml-5  !bg-red-500 !text-white gap-x-5 h-15 flex items-center justify-center" >
           <FiRefreshCcw />
           Reset Filter
         </button>
+        <button type="button" onClick={getpdf} className="ml-5  !bg-red-500 !text-white gap-x-5 h-15 flex items-center justify-center" >
+        <HiOutlineDocumentReport />
+          Get Report
+        </button>
+        
       </div>
 
-      <table style={{ width: '110%' }}>
-        <thead>
+      <table style={{ width: '110%' }} className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className=" text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
-            <th>Position</th>
-            <th>Email</th>
-            <th>Group ID</th>
-            <th>Action</th>
+            <th scope="col" class="px-6 py-3">Employee ID</th>
+            <th scope="col" class="px-6 py-3">First Name</th>
+            <th scope="col" class="px-6 py-3">Last Name</th>
+            <th scope="col" class="px-6 py-3">Age</th>
+            <th scope="col" class="px-6 py-3">Position</th>
+            <th scope="col" class="px-6 py-3">Email</th>
+            <th scope="col" class="px-6 py-3">Group ID</th>
+            <th scope="col" class="px-6 py-3">Action</th>
           </tr>
         </thead>
         <tbody>
           {filteredEmployeeData.map((employee) => (
-            <tr key={employee._id}>
-              <td>{employee.fname}</td>
-              <td>{employee.lname}</td>
-              <td>{employee.age}</td>
-              <td>{employee.position}</td>
-              <td>{employee.email}</td>
-              <td>{employee.gid}</td>
-              <td>
-                <button className="delete" onClick={() => handleDelete(employee._id)}>
-                  <FaTrashAlt />
+            <tr key={employee._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <td className="px-6 py-4">{employee.emp_id}</td>
+              <td className="px-6 py-4">{employee.fname}</td>
+              <td className="px-6 py-4">{employee.lname}</td>
+              <td className="px-6 py-4">{employee.age}</td>
+              <td className="px-6 py-4">{employee.position}</td>
+              <td className="px-6 py-4">{employee.email}</td>
+              <td className="px-6 py-4">{employee.gid}</td>
+              <td className="px-6 py-4">
+                <button className="delete mx-2" onClick={() => handleDelete(employee._id)}>
+                  <FaTrashAlt className="text-red-500"/>
                 </button>
-                <button className="edit" onClick={() => handleEdit(employee)}>
-                  <FaEdit />
+                <button className="edit mx-2" onClick={() => handleEdit(employee)}>
+                  <FaEdit className="text-blue-500"/>
                 </button>
                 {employee.gid === 'null' ? (
-                  <button className="add-to-group" onClick={() => handleAddToGroup(employee._id)}>
-                    <FaUserPlus />
+                  <button className="add-to-group mx-2" onClick={() => handleAddToGroup(employee._id)}>
+                    <FaUserPlus className="text-black"/>
                   </button>
                 ) : (
-                  <button className="remove-from-group" onClick={() => handleRemoveFromGroup(employee._id)}>
+                  <button className="remove-from-group mx-2" onClick={() => handleRemoveFromGroup(employee._id)}>
                     <FaUserMinus />
                   </button>
                 )}
-                <button className="get-qr-function" onClick={() => handleGetQRFunction(employee._id)}>
+                <button className="get-qr-function mx-2" onClick={() => handleGetQRFunction(employee._id)}>
                 <FaQrcode />
                 </button>
               </td>

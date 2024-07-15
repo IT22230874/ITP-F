@@ -13,290 +13,72 @@ function AddProjectForm({ close }) {
     description: "",
     email: "",
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    // Validation for name field
-    if (name === "name") {
-      // Regular expression to allow only alphabets and spaces
-      const regex = /^[a-zA-Z\s]*$/;
-      if (value === "" || regex.test(value)) {
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-      }
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
   
 
   const closeForm = () => {
     close(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("/api/project/addproject", formData);
-      const newProject = response.data;
-      // Reset the form
-      setFormData({
-        name: "",
-        location: "",
-        budget: "",
-        startdate: "",
-        enddate: "",
-        isTender: true,
-        clientname: "",
-        description: "",
+    axios.post('/api/employee/addProject', formData)
+      .then((response) => {
+        console.log('project added successfully:', response.data);
+        // Optionally, you can perform any UI updates or navigation after adding the employee
+      })
+      .catch((error) => {
+        console.error('Error adding projecttt:', error);
       });
-    } catch (error) {
-      console.error("Error adding project:", error);
-    }
   };
 
   return (
-    <div
-      className="popup"
-      style={{ padding: "40px", borderRadius: "8px", height: "80vh",boxShadow: "none", paddingBottom: "60px" }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-                 <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%"
-            }}
-          >
-            <h2>Add Project</h2>
-            <button
-              type="button"
-              className="close"
-              onClick={closeForm}
-              style={{
-                padding: "10px 20px",
-                borderRadius: "4px",
-                background: "transparent",
-                color: "gray",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              X
-            </button>
-          </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            marginBottom: "15px",
-          }}
-        >
- 
-          <div style={{ width: "45%" }}>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
-          <div style={{ width: "45%" }}>
-            <label>Location:</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded border border-black">
+    <div class="grid gap-6 mb-6 md:grid-cols-2 ">
+    <div>
+            <label for="emp_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project ID </label>
+            <input type="number" id="emp_id" name="pid" value={formData.pid} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            marginBottom: "15px",
-          }}
-        >
-          <div style={{ width: "45%" }}>
-            <label>Budget:</label>
-            <input
-              type="text"
-              name="budget"
-              value={formData.budget}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
-          <div style={{ width: "45%" }}>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
+        <div>
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project name</label>
+            <input  type="text" id="fname" name="name" value={formData.name} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            marginBottom: "15px",
-          }}
-        >
-          <div style={{ width: "45%" }}>
-            <label>Start Date:</label>
-            <input
-              type="date"
-              name="startdate"
-              value={formData.startdate}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
-          <div style={{ width: "45%" }}>
-            <label>End Date:</label>
-            <input
-              type="date"
-              name="enddate"
-              value={formData.enddate}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
+        <div>
+            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">location</label>
+            <input  type="text" id="lname" name="location" value={formData.location} onChange={handleChange} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            marginBottom: "15px",
-          }}
-        >
-          <div style={{ width: "45%" }}>
-            <label>Is Tender:</label>
-            <select
-              name="isTender"
-              value={formData.isTender}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            >
-              <option value={true}>Yes</option>
-              <option value={false}>No</option>
-            </select>
-          </div>
-          <div style={{ width: "45%" }}>
-            <label>Client Name:</label>
-            <input
-              type="text"
-              name="clientname"
-              value={formData.clientname}
-              onChange={handleChange}
-              style={{
-                width: "100%",
-                marginBottom: "15px",
-                padding: "8px",
-                borderRadius: "4px",
-              }}
-            />
-          </div>
+        <div>
+            <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required />
         </div>
-        <div style={{ width: "100%" }}>
-          <label>Description:</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              marginBottom: "15px",
-              padding: "8px",
-              borderRadius: "4px",
-            }}
-          />
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start date</label>
+            <input type="date" id="dob" name="startdate" value={formData.startdate} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            marginTop: "20px",
-          }}
-        >
-          <button
-            type="submit"
-            className="add"
-            style={{
-              padding: "10px 20px",
-              borderRadius: "4px",
-              background: "#4267b2",
-              color: "white",
-              border: "none",
-              cursor: "pointer",
-              width: "100%"
-            }}
-          >
-            Add Project
-          </button>
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
+            <input type="date" id="joindate" name="enddate" value={formData.enddate} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
         </div>
-      </form>
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+            <input type="text" id="address" name="description" value={formData.description} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+        </div>
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Budget</label>
+            <input type="number" id="address" name="budget" value={formData.budget} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required />
+        </div>
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Client name</label>
+            <input type="text" id="salary" name="clientname" value={formData.clientname} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required  />
+        </div>
     </div>
+    <button type="submit"  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-2">Submit</button>
+    <button type="button" onClick={closeForm} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Close</button>
+</form>
   );
 }
 

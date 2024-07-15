@@ -14,15 +14,21 @@ const {
   attendanceAnalysis,
   getAttendanceSummary,
   displayAttendance,
+  addProject,
+  generateEmployeeID,
 } = require("../controllers/Employee/employee.controller.js");
 
 const router = express.Router();
 
+
+
 // Employee routes
 router.post("/employee", addEmployee);
+router.post("/addProject", addProject);
 router.patch("/employee/:id", editEmployee);
 router.delete("/employee/:id", removeEmployee);
 router.get("/employees", displayEmployees);
+router.get("/generateEmpID", generateEmployeeID);
 
 // Group routes
 router.get("/groups", displayGroups);

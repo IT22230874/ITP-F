@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function MachineCard({ imagename, heading, priceperday, machineid }) {
   const [showPopup, setShowPopup] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [totalCost, setTotalCost] = useState(0);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -28,24 +32,25 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
         return;
       }
 
-      console.log(profileDataString);
-
       const profileData = profileDataString;
-
-      console.log(profileData);
       if (!profileData) {
         console.error("Invalid profile data");
         return;
       }
 
       const clientid = profileData;
-      console.log(machineid, startDate, endDate, totalCost);
       const requestData = {
         machineid,
         startdate: startDate,
         enddate: endDate,
         amount: totalCost,
       };
+
+      // Store request data in local storage
+      localStorage.setItem("requestDetails", JSON.stringify(requestData));
+
+      // Navigate to CardPayment component
+      navigate("/pay");
 
       const response = await axios.post("/api/rent/addrequest", requestData);
       console.log("Request added successfully:", response.data);
@@ -57,7 +62,6 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
   return (
     <>
       <div className="max-w-sm w-72 bg-white border border-gray-200 rounded-lg shadow ">
-        {console.log("Image Name:", imagename)}
         <img
           className="rounded-t-lg w-full h-60 object-cover"
           src={`../src/assets/machinery/${imagename}`}
@@ -68,7 +72,7 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
             {heading}
           </h5>
           <p className="mb-3 font-normal text-gray-700">
-            Price per day: {priceperday}
+            Price per day: Rs.{priceperday}
           </p>
           <button
             type="button"
@@ -106,38 +110,39 @@ function MachineCard({ imagename, heading, priceperday, machineid }) {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="p-4 md:p-5">
-              <label className="block mb-2">Start Date:</label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="border border-gray-300 p-2 mb-4 w-full"
-              />
-              <label className="block mb-2">End Date:</label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="border border-gray-300 p-2 mb-4 w-full"
-              />
-              <button
-                type="button"
-                onClick={handleConfirm}
-                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Confirm
-              </button>
-              <p className="mt-4">Total Cost: {totalCost}</p>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+                <span className="sr-only">Close
+modal</span>
+</button>
+</div>
+<div className="p-4 md:p-5">
+<label className="block mb-2">Start Date:</label>
+<input
+type="date"
+value={startDate}
+onChange={(e) => setStartDate(e.target.value)}
+className="border border-gray-300 p-2 mb-4 w-full"
+/>
+<label className="block mb-2">End Date:</label>
+<input
+type="date"
+value={endDate}
+onChange={(e) => setEndDate(e.target.value)}
+className="border border-gray-300 p-2 mb-4 w-full"
+/>
+<button
+             type="button"
+             onClick={handleConfirm}
+             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+           >
+Confirm
+</button>
+<p className="mt-4">Total Cost: {totalCost}</p>
+</div>
+</div>
+</div>
+)}
+</>
+);
 }
 
 export default MachineCard;

@@ -1,8 +1,8 @@
 .dashboard {
-  background-color: rgb(244, 244, 244);
+  background-color: rgb(255, 255, 255);
   margin: 0;
-  height: calc(100vh - 70px);
-  width: calc(100vw - 400px);
+  height: 100vh;
+  width: calc(100vw - 300px);
   overflow: scroll;
   padding: 15px 40px;
   display: flex;

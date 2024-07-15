@@ -100,7 +100,6 @@ function ProjectManagementContent() {
   return (
     <div className="dashboard" style={{ borderRadius: "8px", backgroundColor: "#d1d1d1" }}>
       <PageIntroduction heading="Projects" btname="Add Project" handleClick={() => displayForm()} />
-      <AnalysisSection />
       <div className="navbar" style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly", marginTop: "-30px", marginBottom: "30px" }}>
         <button type="button" className="button" style={{ background: "#4267B2", position: "relative", overflow: "hidden" }} onClick={handleGraphsButtonClick}>
           <span className="bubble"></span>

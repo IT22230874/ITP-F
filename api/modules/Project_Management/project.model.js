@@ -26,14 +26,6 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    default: "new", // Assuming "new" is the default status
-  },
-  isTender: {
-    type: Boolean,
-    required: true,
-  },
   clientname: {
     type: String,
     required: true,
