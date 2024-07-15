@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function BidForm({ tenderId, title, onClose }) {
   const [name, setName] = useState("");
-  const [organizationname, setOrganization] = useState("");
+  const [organization, setOrganization] = useState("");
   const [address, setAddress] = useState("");
   const [tel, setTel] = useState("");
   const [email, setEmail] = useState("");
   const [weblink, setWeblink] = useState("");
   const [description, setDescription] = useState("");
-  const [bidAmount, setBidAmount] = useState("");
+  const [date, setDate] = useState(""); 
 
-  tenderId = tenderId;
+  useEffect(() => {
+    // Set current date when component mounts
+    const currentDate = new Date().toISOString().split('T')[0];
+    setDate(currentDate);
+  }, []);
+
+  const [bidamount, setBid] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,30 +28,27 @@ function BidForm({ tenderId, title, onClose }) {
 
     try {
       const response = await axios.post("/api/tender/addbid", {
-        tenderId,
         name,
-        organizationname,
+        organizationname: organization,
         address,
         tel,
         email,
         weblink,
         description,
-        bidAmount,
+        date,
+        bidamount,
+        title,
+        tenderId,
       });
+
       console.log("Bid submitted:", response.data);
-      onClose(); // Close form on successful submission
+      // Optionally handle success response (e.g., show a success message)
+
+      // Close the form after submission
+      onClose();
     } catch (error) {
-      if (error.response) {
-        console.error(
-          "Server responded with non-2xx status:",
-          error.response.data
-        );
-      } else if (error.request) {
-        console.error("No response received from server:", error.request);
-      } else {
-        console.error("Error setting up request:", error.message);
-      }
       console.error("Error submitting bid:", error);
+      // Optionally handle error response (e.g., show an error message)
     }
   };
 
@@ -58,7 +61,12 @@ function BidForm({ tenderId, title, onClose }) {
       return false;
     }
 
-    if (!amountRegex.test(bidAmount)) {
+    if (!date) {
+      alert("Please select a date.");
+      return false;
+    }
+
+    if (!amountRegex.test(bidamount)) {
       alert("Please enter a valid bid amount.");
       return false;
     }
@@ -93,15 +101,15 @@ function BidForm({ tenderId, title, onClose }) {
           </div>
           <div className="col-span-2 sm:col-span-1">
             <label
-              htmlFor="organizationname"
+              htmlFor="organization"
               className="block text-sm font-medium text-gray-700"
             >
               Organization Name:
             </label>
             <input
               type="text"
-              id="organizationname"
-              value={organizationname}
+              id="organization"
+              value={organization}
               onChange={(e) => setOrganization(e.target.value)}
               required
               className="mt-1 p-2 w-full rounded-md text-sm border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 -ml-2"
@@ -177,18 +185,37 @@ function BidForm({ tenderId, title, onClose }) {
 
           <div className="col-span-2 sm:col-span-1">
             <label
-              htmlFor="bidAmount"
+              htmlFor="bidamount"
               className="block text-sm font-medium text-gray-700"
             >
               Bid Amount:
             </label>
             <input
               type="text"
-              id="bidAmount"
-              value={bidAmount}
-              onChange={(e) => setBidAmount(e.target.value)}
-              placeholder="Enter the amount"
+              id="bidamount"
+              value={bidamount}
+              onChange={(e) => setBid(e.target.value)}
+              placeholder="Enter the amount(Rs)"
               pattern="^\d+(\.\d{1,2})?$"
+              required
+              className="mt-1 p-2 w-full rounded-md text-sm border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 -ml-2"
+            />
+          </div>
+
+          <div className="col-span-2 sm:col-span-1">
+            <label
+              htmlFor="date"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date:
+            </label>
+            <input
+              type="date"
+              id="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              min={new Date().toISOString().split('T')[0]}
+              max={new Date().toISOString().split('T')[0]}
               required
               className="mt-1 p-2 w-full rounded-md text-sm border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 -ml-2"
             />

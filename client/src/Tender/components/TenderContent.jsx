@@ -88,7 +88,7 @@ function TenderContent() {
             ? "Published Tenders"
             : "Bids"
         }
-        btname="publish a tender"
+        btname="Publish a Tender"
         handleClick={() => displayForm()}
 
 
@@ -97,26 +97,26 @@ function TenderContent() {
       <div className="navbar">
         <button
           type="button"
-          className="button"
+          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-800"
           onClick={() => handleTableChange("recieved")}
         >
           Recieved Tenders
         </button>
         <button
           type="button"
-          className="button"
+          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-800"
           onClick={() => handleTableChange("published")}
         >
           Published Tenders
         </button>
         <button
           type="button"
-          className="button"
+          className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-800"
           onClick={() => handleTableChange("bids")}
         >
           Bids
         </button>
-        <button type="button" className="button" onClick={getpdf}>
+        <button type="button" className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-800" onClick={getpdf}>
           Get Report
         </button>
       </div>

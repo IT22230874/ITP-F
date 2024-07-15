@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const bidSchema = new mongoose.Schema({
+  
   bidid: {
     type: Number,
     required: true,
@@ -37,17 +38,19 @@ const bidSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   tender: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Tender",
     required: true,
   },
-  bidAmount: {
-    type: Number,
+
+  bidamount: {
+    type: String,
     required: true,
   },
 });
 
-const BidModel = mongoose.model("Bid", bidSchema);
+const BidModel = mongoose.model("bid", bidSchema);
 
 module.exports = BidModel;
